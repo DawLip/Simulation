@@ -73,10 +73,9 @@ def main():
 
     respawnFood()
     model()
-    if data["tick"]%5==0:
-        renderMap()
+    if data["tick"]%5==0:       renderMap()
 
-    if data["tick"]%100==0:   debug()
+    if data["tick"]%100==0:     debug()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
