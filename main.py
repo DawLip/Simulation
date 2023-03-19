@@ -11,6 +11,7 @@ from debug import debug
 from data import colors, objs, data, imgR
 img=copy.deepcopy(imgR)
 
+# test
 def renderMap():
     for obj in objs:
         img[obj["y"]][obj["x"]]=colors[obj["type"]]
