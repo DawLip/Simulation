@@ -1,48 +1,25 @@
-baseSpaciesModel = {
-    "Name": "",
-    "IsPlayer": False,
-    "Icon": "Q",
-    "Type": "pacies",
+import cv2
 
-    "x": 0,
-    "y": 0,
+imgR = cv2.imread('./map.png')
+imgR = cv2.cvtColor(imgR, cv2.COLOR_RGB2BGR)
 
-    "Sex": "Male",
-    "Age": 0,
-    "MaxAge": 10,
-    "ReproductiveAge": 5,
-
-    "HP": 100,
-    "Attack": 0,
-    "MoveCouldown": 100,
-    "RunCost": 10,
-
-    "Hunger": 100,
-    "MaxHunger": 100,
-    "SustainCost": 1,
-
-    "Stamina": 100,
-    "StaminaRegeneration": 10,
-
-    "Am": 100,
+colors={
+    'cell': [0,0,0],
+    'food': [0,255,0],
+    'dead': [128,128,0],
+    'eaten': [255,0,0],
 }
 
-baseFoodModel = {
-    "Name": "",
-    "Type": "food",
+objs=[]
 
-    "Hunger": 10,
-    "Icon": "x",
-    "x": 0,
-    "y": 0
+data={
+    "x": 256,
+    "y": 128,
+    "speed": 10,
+    "tick": 1,
+    "id": 0
 }
-d = {
-    "entities": [],
-    "numberOfInitSpacies": 10,
 
-    "mapWidth": 100,
-    "mapHeight": 55,
-
-    "iteration": 0,
-    "seasonLen": 100
+debugData={
+    "cannibalism":0
 }
