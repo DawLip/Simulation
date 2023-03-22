@@ -1,5 +1,14 @@
-from GUI.GUI import GUI
-from model.y import y
+import threading
 
-if __name__ == "__main__":
-    GUI()
+from app.app import app
+from model.model import model
+from debug.debug import debug
+
+if __name__ =="__main__":
+    appT = threading.Thread(target=app)
+    modelT = threading.Thread(target=model)
+    # debugT = threading.Thread(target=debug)
+ 
+    appT.start()
+    modelT.start()
+    # debugT.start()
