@@ -5,7 +5,7 @@ data={
     'simWidth': 128,
 
     'frameRate': 30,
-    'debugShowDelay':1000,
+    'debugShowDelay': 1000,
     'modelIterationDelay': 100,
 
     'id': 0,
@@ -23,9 +23,13 @@ entities={
 environment={}
 
 GUI={
+    'windowWidth': 1920,
+    'windowHeight': 1080,
+
     'windowTitle': "Simulation",
     'sprites':[],
     'texturesSize': 8,
-    'textures':{}
+    'textures':{},
+    'topBarButtons':[]
 }
  
