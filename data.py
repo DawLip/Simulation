@@ -15,11 +15,6 @@ data={
     'initialFoodNumber': 30
 }
 
-entities={
-    'cells':[],
-    'food':[],
-}
-
 environment={}
 
 GUI={

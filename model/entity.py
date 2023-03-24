@@ -40,8 +40,3 @@ class Entity:
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.x}, {self.y})"
-
-
-# TODO remove
-Entity(10, 20)
-Entity(50, 46)

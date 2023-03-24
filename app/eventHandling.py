@@ -1,6 +1,6 @@
 import pygame
 
-from data import data, GUI, entities
+from data import data, GUI
 
 def eventHandling():
     for event in pygame.event.get():

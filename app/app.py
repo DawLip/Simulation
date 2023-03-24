@@ -1,7 +1,7 @@
 import sys, os
 import pygame
 
-from data import data, GUI, entities
+from data import data, GUI
 
 from .initializeGUI import initializeGUI
 from .updateGUI import updateGUI
