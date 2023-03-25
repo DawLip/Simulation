@@ -1,5 +1,6 @@
 from .entity import Entity
 from .body import Body
+from .food import Food
 
 
 class Cell(Entity):
@@ -33,10 +34,40 @@ class Cell(Entity):
         else:
             self.__energy = newEnergy
 
+    def lookingForFood(self):
+        nearestFood = None
+        minDistance = None
+        for food in Food.all:
+            # TODO tmp distance counting
+            distance = (self.x - food.x) ** 2 + (self.y - food.y) ** 2
+            if minDistance == None or minDistance > distance:
+                minDistance = distance
+                nearestFood = food
+
+        return nearestFood
+
+    def eat(self, food):
+        self.energy += food.energy
+        food.eaten()
+
+    def move(self):
+        nearestFood = self.lookingForFood()
+        if nearestFood != None:
+            self.energy -= 1
+            distanceX = nearestFood.x - self.x
+            distanceY = nearestFood.y - self.y
+            if abs(distanceX) or abs(distanceY) <= 1:
+                self.eat(nearestFood)
+            if abs(distanceX) > abs(distanceY):
+                if distanceX > 0:
+                    self.x += 1
+                else:
+                    self.x -= 1
+            else:
+                if distanceY > 0:
+                    self.y += 1
+                else:
+                    self.y -= 1
+
     def __repr__(self):
         return super().__repr__()[:-1] + f", {self.energy}, {self.buildingPoints})"
-
-
-# TODO remove
-Cell(104, 73, 500, 236)
-Cell(104, 73, 500, 236)
