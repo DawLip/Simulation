@@ -5,7 +5,6 @@ from model.entity import Entity
 
 
 def renderMap():
-    GUI["sprites"] = []
     for entity in Entity.all:
         # TODO add solution for Body
         if entity.__class__.__name__ == "Body":
