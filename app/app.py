@@ -12,6 +12,9 @@ from .eventHandling import eventHandling
 def app(): 
     initializeGUI()
 
+    renderMap()
+    updateGUI(True)
+
     while not data['exit']:
         eventHandling()
         renderMap()

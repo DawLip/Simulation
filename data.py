@@ -1,5 +1,6 @@
 data={
     'exit':False,
+    'isSimRunning': False,
 
     'simHeight': 128,
     'simWidth': 128,
