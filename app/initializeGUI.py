@@ -9,7 +9,7 @@ def initializeGUI():
     pygame.init()
     pygame.font.init()
 
-    GUI['window'] = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    GUI['window'] = pygame.display.set_mode([GUI['windowWidth'], GUI['windowHeight']], pygame.RESIZABLE)
     GUI['clock'] = pygame.time.Clock()
     GUI['font'] = pygame.font.Font(None, 24)
 
@@ -22,4 +22,4 @@ def initializeGUI():
     GUI['textures']['cell'] = pygame.image.load(r'./resources/img/cell.png')  
     GUI['textures']['food'] = pygame.image.load(r'./resources/img/food.png')  
 
-    pygame.display.set_caption('Test')
+    pygame.display.set_caption('Simulation')

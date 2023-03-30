@@ -2,7 +2,7 @@ data={
     'exit':False,
     'isSimRunning': False,
 
-    'simHeight': 128,
+    'simHeight': 64,
     'simWidth': 128,
 
     'frameRate': 30,
@@ -22,7 +22,7 @@ environment={}
 
 GUI={
     'windowWidth': 1920,
-    'windowHeight': 1080,
+    'windowHeight': 1080-64,
 
     'windowTitle': "Simulation",
     'sprites':[],
