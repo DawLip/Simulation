@@ -1,7 +1,8 @@
 import pygame
 
-from data import data, GUI
-from .UIComponents.section import Section
+from .UIComponents.UIComponents import Section
+
+from data import data
 
 def eventHandling():
     for event in pygame.event.get():

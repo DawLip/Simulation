@@ -1,11 +1,9 @@
-import sys, os
 import pygame
 
-from .UIComponents.section import Section
-from .UIComponents.button import Button
+from .UIComponents.UIComponents import Section, Button
 from .sections import sections
 
-from data import data, GUI
+from data import GUI
 
 def initializeGUI():
     pygame.init()
@@ -15,30 +13,10 @@ def initializeGUI():
     GUI['clock'] = pygame.time.Clock()
     GUI['font'] = pygame.font.Font(None, 24)
 
-    
-
     for section in sections():
         if 'type' in section:
-            if section['type']=='button':
-                Button(
-                    name=section['name'],
-                    parent=section['parent'],
-                    size=section['size'],
-                    position=section['position'],
-                    bgc=section['bgc'],
-                    txt=section['txt'],
-                    action=section['action']
-                )
-        else:
-            Section(
-                name=section['name'],
-                parent=section['parent'],
-                size=section['size'],
-                position=section['position'],
-                bgc=section['bgc'],
-                toUpdate=section['update']
-            )
-
+            if section['type']=='button':       Button(**section)
+        else:                                   Section(**section)
 
     # import textures
     GUI['textures']['cell'] = pygame.image.load(r'./resources/img/cell.png')  

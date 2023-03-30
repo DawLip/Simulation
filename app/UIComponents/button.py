@@ -7,14 +7,15 @@ class Button(Section):
             # Section attrs
             self, name="", parent=None,
             size=(100, 100), position=(0,0), 
-            bgc=(255,255,255), 
+            bgc=(255,255,255), toUpdate=False,
+            type="button",
 
             # Button attrs
             txt="Button1",
             action=None,
         ):
         
-        super().__init__(name, parent, size, position, bgc)
+        super().__init__(name, parent, size, position, bgc, toUpdate, type)
         
         self.txt=txt
         self.action=action

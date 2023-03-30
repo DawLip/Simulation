@@ -7,15 +7,16 @@ class Txt(Section):
     def __init__(
             # Section attrs
             self, name="", parent=None,
-            size=(64, 24), position=(4,4), 
-            bgc=(255,255,255),
+            size=(100, 100), position=(4,4), 
+            bgc=(255,255,255), toUpdate=False,
+            type="txt",
 
             # Txt attrs
             txt="Text",
             fontSize=24,
         ):
         
-        super().__init__(name, parent, size, position, bgc)
+        super().__init__(name, parent, size, position, bgc, toUpdate, type)
 
         self.txt=txt
         self.font=pygame.font.Font(None, fontSize)

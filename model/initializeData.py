@@ -1,8 +1,8 @@
 from random import randrange
 
-from data import data, GUI
-from .food import Food
-from .cell import Cell
+from .entities.entities import Food, Cell
+
+from data import data
 
 
 def initializeData():

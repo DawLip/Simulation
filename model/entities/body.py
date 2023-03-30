@@ -1,6 +1,5 @@
 from .entity import Entity
 
-
 class Body(Entity):
     all = []
 

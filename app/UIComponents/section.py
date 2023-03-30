@@ -8,10 +8,9 @@ class Section():
     def __init__(
             self, name="", parent=None,
             size=(100, 100), position=(0,0), 
-            bgc=(255,255,255), toUpdate=False
+            bgc=(255,255,255), toUpdate=False,
+            type="section"
         ):
-
-        self.name=name
 
         self.parentName=parent
         if self.parentName != None: 
@@ -24,16 +23,15 @@ class Section():
             self.x=position[0]
             self.y=position[1]
             
-
+        self.name=name
+        self.type=type
         self.size=size
-        
         self.bgc=bgc
 
         self.toRunDuringUpdate=[]
 
         self.clickable=False
         self.toUpdate=toUpdate
-        if name=='map': self.toUpdate=True
         
         self.surface = pygame.Surface(size)
         self.surface.fill(self.bgc)
