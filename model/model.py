@@ -1,9 +1,6 @@
-import sys, os
 import time
 
 from .initializeData import initializeData
-from .entity import Entity
-from app.UIComponents.section import Section
 
 from data import data, GUI
 
@@ -14,5 +11,5 @@ def model():
     
     while not data['exit']:
         while data['isSimRunning']:
-            # [x for x in Section.all if x.name=='map'][0].x+=1
+            # [x for x in Entity.all][0].x+=1
             time.sleep(data['modelIterationDelay']/1000)

@@ -25,7 +25,7 @@ class Txt(Section):
     def update(self, firstUpdate):
         if firstUpdate:
             # self.surface.fill(self.bgc)
-            txt = self.font.render(self.txt, False, (0, 0, 0))
+            txt = self.font.render(self.txt, True, (0, 0, 0))
             # self.parentSurface.blit(txt, (self.x, self.y))
 
-            GUI['window'].blit(txt, (self.parent.x+self.x, self.parent.y+self.y))
+            GUI['window'].blit(txt, (self.x, self.y))
