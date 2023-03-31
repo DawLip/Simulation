@@ -1,4 +1,4 @@
-from model.entities.entities import Entity
+from model.entities.importEntities import Entity
 from .UIComponents.UIComponents import Section
 
 from data import GUI

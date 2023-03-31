@@ -1,42 +1,36 @@
 from data import data
-
-
 class Entity:
     all = []
 
-    def __init__(self, x: int, y: int):
-        assert (
-            isinstance(x, int) and x >= 0 and x <= data["simWidth"]
-        ), f"x must be an int and 0 <= x <= {data['simWidth']}"
-        assert (
-            isinstance(y, int) and y >= 0 and y <= data["simHeight"]
-        ), f"y must be an int and 0 <= y <= {data['simHeight']}"
-
-        self.__x = x
-        self.__y = y
+    def __init__(self, x: int, y: int, img: object):
+        self.x = x
+        self.y = y
+        self.img = img
         Entity.all.append(self)
-
+        
     @property
     def x(self):
         return self.__x
+    @x.setter
+    def x(self, newValue: int):
+        assert isinstance(newValue, int) and newValue >= 0 and newValue <= data["simWidth"], f"x must be an int and 0 <= x <= {data['simWidth']}"
+        self.__x = newValue
 
     @property
     def y(self):
         return self.__y
-
-    @x.setter
-    def x(self, newX: int):
-        assert (
-            isinstance(newX, int) and newX >= 0 and newX <= data["simWidth"]
-        ), f"x must be an int and 0 <= x <= {data['simWidth']}"
-        self.__x = newX
-
     @y.setter
-    def y(self, newY: int):
-        assert (
-            isinstance(newY, int) and newY >= 0 and newY <= data["simHeight"]
-        ), f"y must be an int and 0 <= y <= {data['simHeight']}"
-        self.__y = newY
+    def y(self, newValue: int):
+        assert isinstance(newValue, int) and newValue >= 0 and newValue <= data["simHeight"], f"y must be an int and 0 <= y <= {data['simHeight']}"
+        self.__y = newValue
+        
+    @property
+    def img(self):
+        return self.__img
+    @img.setter
+    def img(self, newValue: object):
+        assert newValue.__class__.__name__=='Surface', f'img must be a object like "pygame.image.load(r\'./resources/img/cell.png\')"'
+        self.__img = newValue
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.x}, {self.y})"
+        return f"{self.__class__.__name__}({self.x}, {self.y}, img:{self.img})"

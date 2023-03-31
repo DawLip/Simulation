@@ -19,7 +19,7 @@ def initializeGUI():
         else:                                   Section(**section)
 
     # import textures
-    GUI['textures']['cell'] = pygame.image.load(r'./resources/img/cell.png')  
+    GUI['textures']['organism'] = pygame.image.load(r'./resources/img/organism.png')  
     GUI['textures']['food'] = pygame.image.load(r'./resources/img/food.png')  
 
     pygame.display.set_caption('Simulation')

@@ -1,9 +1,8 @@
-from .entity import Entity
+from ..entity import Entity
 
 
 class Food(Entity):
     all = []
-# test
     def __init__(self, x: int, y: int, energy):
         super().__init__(x, y)
         assert (

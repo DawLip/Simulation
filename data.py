@@ -12,7 +12,7 @@ data={
     'id': 0,
     'tick': 1,
 
-    'initialCellNumber':1,
+    'initialCellNumber': 1,
     'initialFoodNumber': 1,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,

@@ -1,7 +1,7 @@
 import time
 
 from .initializeData import initializeData
-from .entities.entities import Entity
+from .entities.importEntities import Entity
 
 from data import data
 
