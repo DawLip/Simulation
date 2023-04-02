@@ -1,7 +1,8 @@
 from pygame import image
 from data import data
 
-from .entity import Entity
+from .Entity import Entity
+from .tmp.Tmp_food import TmpFood
 
 # TODO add additional attributes
 class Organism(Entity):
@@ -12,11 +13,11 @@ class Organism(Entity):
         self,
         x: int,
         y: int,
-        img: object,
         energy: int,
         actions: int,
         buildingPoints: int,
         parent: object = None,
+        img = image.load(r'./resources/img/organism.png'),
         ):
         super().__init__(x, y, img)
         self.energy = energy
@@ -34,7 +35,37 @@ class Organism(Entity):
     def delete(self):
         Entity.all.pop(Entity.all.index(self))
         Organism.all.pop(Organism.all.index(self))
+        
+    def eat(self, nearestFood):
+        self.energy += nearestFood.energy
+        nearestFood.delete()
+        
+    # TODO change looking for tmp foo to organic materia
+    def lookingForFood(self):
+        nearestFood = None
+        minDistance = None
+        for food in TmpFood.all:
+            distance = abs(self.x - food.x) + abs(self.y - food.y) 
+            if minDistance == None or minDistance > distance:
+                minDistance = distance
+                nearestFood = food
+        return nearestFood
     
+    def move(self):
+        nearestFood = self.lookingForFood()
+        if nearestFood != None:
+            self.energy = self.energy - 1
+            nearestFoodX = nearestFood.x - self.x 
+            nearestFoodY = nearestFood.y - self.y
+            if abs(nearestFoodX) > abs(nearestFoodY):
+                if nearestFoodX > 0: self.x += 1
+                else:                self.x -= 1
+            else:
+                if nearestFoodY > 0:    self.y += 1
+                elif nearestFoodY != 0: self.y -= 1
+            if abs(nearestFoodX) == 0 and abs(nearestFoodY) == 0:
+                self.eat(nearestFood)
+
     #  TODO tmp fun
     def division(self):
         if self.energy > self.divisionCost:
@@ -42,7 +73,7 @@ class Organism(Entity):
             newX = self.x-1
             if self.x < data['simWidth']/2:
                 newX+=2
-            self.children.append(Organism(newX, self.y, image.load(r'./resources/img/organism.png'), self.divisionCost, self.actions, 0, self))
+            self.children.append(Organism(newX, self.y, self.divisionCost, self.actions, 0, self))
         
         
     @property
@@ -53,6 +84,9 @@ class Organism(Entity):
         assert isinstance(newValue, int), "energy must be an int"
         if newValue <= 0: self.delete()
         else: self.__energy = newValue
+        # TODO tmp division
+        if newValue > 150:
+            self.division()
     
     @property
     def buildingPoints(self):

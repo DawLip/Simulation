@@ -13,7 +13,7 @@ data={
     'tick': 1,
 
     'initialCellNumber': 1,
-    'initialFoodNumber': 1,
+    'initialFoodNumber': 10,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 }

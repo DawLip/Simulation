@@ -1,4 +1,4 @@
-from ..entity import Entity
+from ..Entity import Entity
 from .body import Body
 from .food import Food
 
