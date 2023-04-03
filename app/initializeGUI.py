@@ -22,5 +22,6 @@ def initializeGUI():
     GUI['textures']['organism'] = pygame.image.load(r'./resources/img/organism.png')  
     GUI['textures']['food'] = pygame.image.load(r'./resources/img/food.png')  
     GUI['textures']['tmpfood'] = pygame.image.load(r'./resources/img/food.png')  
+    # GUI['textures']['OrganicMatter'] = pygame.image.load(r'./resources/img/organicMatter.png')  
 
     pygame.display.set_caption('Simulation')

@@ -1,3 +1,7 @@
+# class Tmp:
+#     def __init__(self):
+#         self.map = [[]]
+    
 data={
     'exit':False,
     'isSimRunning': False,
@@ -16,6 +20,8 @@ data={
     'initialFoodNumber': 10,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
+    
+    # 'OrganicMatter': Tmp()
 }
 
 environment={}
