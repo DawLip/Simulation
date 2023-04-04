@@ -19,4 +19,4 @@ def initializeData():
     for _ in range(data["initialCellNumber"]):
         # TODO default values
         # pygame.image.load(r'./resources/img/cell.png')  
-        Organism(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1), 100, 10, 0)
+        Organism(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1), 100, 10)

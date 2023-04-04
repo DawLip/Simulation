@@ -11,13 +11,13 @@ data={
 
     'frameRate': 30,
     'debugShowDelay': 1000,
-    'modelIterationDelay': 100,
+    'modelIterationDelay': 50,
 
     'id': 0,
     'tick': 1,
-
-    'initialCellNumber': 1,
-    'initialFoodNumber': 10,
+    
+    'initialCellNumber': 4,
+    'initialFoodNumber': 200,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
     
