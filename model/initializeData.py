@@ -4,6 +4,7 @@ from .entities.importEntities import Organism
 from .entities.tmp.Tmp_food import TmpFood
 
 # from .environment.OrganicMatter import OrganicMatter
+from .environment.CollisionMap import CollisionMap
 
 from data import data
 
@@ -11,7 +12,7 @@ from data import data
 
 def initializeData():
     # data['OrganicMatter']=OrganicMatter()
-    
+    data['CollisionMap']=CollisionMap()
     # TODO tmp init
     for _ in range(data['initialFoodNumber']):
         TmpFood(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1))
