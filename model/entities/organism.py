@@ -21,10 +21,10 @@ class Organism(Entity):
         super().__init__(x, y, img)
         self.energy = energy
         self.buildingPoints = buildingPoints
-        self.__additionalCells = [] #TODO by default Organizm have NO additionalCells
+        self.additionalCells = [] #TODO by default Organizm have NO additionalCells
         self.cooldown = cooldown
-        self.__parent = parent
-        self.__children = []
+        self.parent = parent
+        self.children = []
         
         # place for additional attributes
         
@@ -116,32 +116,29 @@ class Organism(Entity):
         assert isinstance(newValue, int), "buildingPoints must be an int"
         self.__buildingPoints = newValue
     
-    # TODO additionalCells have NOT setter 
     @property
     def additionalCells(self):
         return self.__additionalCells
-    # @additionalCells.setter
-    # def additionalCells(self, newValue: list):
-    #     assert isinstance(newValue, list), "additionalCells must be an list"
-    #     self.__additionalCells = newValue
+    @additionalCells.setter
+    def additionalCells(self, newValue: list):
+        assert isinstance(newValue, list), "additionalCells must be an list"
+        self.__additionalCells = newValue
     
-    # TODO parent have NOT setter 
     @property
     def parent(self):
         return self.__parent
-    # @parent.setter
-    # def parent(self, newValue: object):
-    #     assert isinstance(newValue, object), "parent must be an object"
-    #     self.__parent = newValue
+    @parent.setter
+    def parent(self, newValue: object):
+        assert isinstance(newValue, (object, None)), "parent must be an object or None"
+        self.__parent = newValue
     
-    # TODO children have NOT setter 
     @property
     def children(self):
         return self.__children
-    # @children.setter
-    # def children(self, newValue: list):
-    #     assert isinstance(newValue, list), "children must be an list"
-    #     self.__children = newValue
+    @children.setter
+    def children(self, newValue: list):
+        assert isinstance(newValue, list), "children must be an list"
+        self.__children = newValue
     
     @property
     def cooldown(self):
@@ -150,4 +147,6 @@ class Organism(Entity):
     def cooldown(self, newValue: int):
         assert isinstance(newValue, int) and newValue >= 0, f'cooldown: {self.cooldown}; cooldown must be an int and cooldown >= 0'
         self.__cooldown = newValue
-    
+        
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.x}, {self.y}, {self.energy}, {self.buildingPoints}, {self.cooldown}, {self.parent}, {self.img})"
