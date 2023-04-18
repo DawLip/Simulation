@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from .WindowTabs import WindowTabs
+from windowApps.Info import Info
 # from windows.Simulation import Simulation
 
 class Window(tk.Frame):
@@ -14,8 +15,12 @@ class Window(tk.Frame):
 
         self.tabs=tabs
         self.selectedTab=0
-
+        
         self.tabsBar=WindowTabs(self, tabs=tabs)
         if len(self.tabs.keys())>0: 
             self.content=self.tabs[list(self.tabs.keys())[self.selectedTab]](self, highlightbackground='black', bg='#3E3E42', highlightthickness=2, height=256, width=256)
+            
+        # TODO tmp :)
+        if list(self.tabs.keys())[0]=='Info':
+            self.foo = Info(self)
             
