@@ -7,11 +7,11 @@ def appStart():
     app.mainloop()
 
 if __name__ =="__main__":
-    appT = threading.Thread(target=appStart)
     modelT = threading.Thread(target=model)
+    appT = threading.Thread(target=appStart)
     # debugT = threading.Thread(target=debug)
  
-    appT.start()
     modelT.start()
+    appT.start()
     # debugT.start()
     # appT.join()

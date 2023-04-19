@@ -4,7 +4,7 @@ from random import randrange
 from .initializeData import initializeData
 from .entities.importEntities import Organism
 
-from .entities.tmp.Tmp_food import TmpFood
+from .entities.tmp.TmpFood import TmpFood
 
 from data import data
 

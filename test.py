@@ -1,7 +1,6 @@
-from model.environment.CollisionMap import CollisionMap
+a,b=[1,(2,3)]
+b,c=b
+print(a,b,c)
 
-obj = CollisionMap()
-foo = obj.map
-foo[-1][-1]=1
-obj.map = foo
-print(obj)
+    
+

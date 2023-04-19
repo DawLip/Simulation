@@ -1,7 +1,7 @@
 from random import randrange
 
 from .entities.importEntities import Organism
-from .entities.tmp.Tmp_food import TmpFood
+from .entities.tmp.TmpFood import TmpFood
 
 # from .environment.OrganicMatter import OrganicMatter
 from .environment.CollisionMap import CollisionMap
