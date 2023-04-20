@@ -34,9 +34,9 @@ class App(tk.Tk):
         # Render windows
         TopMenu(self)
         
-        self.windows.append(Window(self, column=0, width=256,              tabs={'Placeholder': self.windowApps['Placeholder']}))
+        self.windows.append(Window(self, column=0, width=256,              tabs={'AllEntitiesInfo': self.windowApps['Placeholder']}))
         self.windows.append(Window(self, column=1,                         tabs={'Simulation': self.windowApps['Simulation']}))
-        self.windows.append(Window(self, column=2, width=256,              tabs={'Info': self.windowApps['Placeholder']}))
+        self.windows.append(Window(self, column=2, width=256,              tabs={'EntityInfo': self.windowApps['Placeholder']}))
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
 

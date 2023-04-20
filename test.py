@@ -1,6 +1,5 @@
-a,b=[1,(2,3)]
-b,c=b
-print(a,b,c)
+s={}
 
-    
+s['asd']=1
+print(s)
 
