@@ -6,8 +6,8 @@ def appStart():
     app = App()
 
 if __name__ =="__main__":
-    appT = threading.Thread(target=appStart)
     modelT = threading.Thread(target=model)
+    appT = threading.Thread(target=appStart)
     # debugT = threading.Thread(target=debug)
  
     modelT.start()
