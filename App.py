@@ -1,12 +1,12 @@
 import tkinter as tk
 
-from components.Window import Window
-from components.TopMenu import TopMenu
+from app.components.Window import Window
+from app.components.TopMenu import TopMenu
 
-from windowApps.simulation.Simulation import Simulation
-from windowApps.Placeholder import Placeholder
-from windowApps.AllEntitiesInfo import AllEntitiesInfo
-from windowApps.EntityInfo import EntityInfo
+from app.windowApps.simulation.Simulation import Simulation
+from app.windowApps.Placeholder import Placeholder
+from app.windowApps.AllEntitiesInfo import AllEntitiesInfo
+from app.windowApps.EntityInfo import EntityInfo
 
 
 class App(tk.Tk):
@@ -43,4 +43,6 @@ class App(tk.Tk):
         self.windows.append(Window(self, column=2, width=256,              tabs={'EntityInfo': self.windowApps['EntityInfo']}))
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
+
+        self.mainloop()
 

@@ -2,7 +2,7 @@ import time
 from random import randrange
 
 from .initializeData import initializeData
-from .entities.importEntities import Organism
+from .entities.importEntities import Organism, Entity
 
 from .entities.tmp.TmpFood import TmpFood
 
@@ -18,8 +18,8 @@ def model():
         while data['isSimRunning']:
             if not data['tick']%50:
                 TmpFood(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1))
-            for O in Organism.all:
-                O.brain()
+            for organism in Organism.all:
+                organism.brain()
                 
             data['tick'] += 1
             time.sleep(data['modelIterationDelay']/1000)

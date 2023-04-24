@@ -1,9 +1,6 @@
 import tkinter as tk
 
 from .WindowTabs import WindowTabs
-from windowApps.EntityInfo import EntityInfo
-# from windowApps.AllEntitiesInfo import AllEntitiesInfo
-# from windows.Simulation import Simulation
 
 class Window(tk.Frame):
     def __init__(self, parent, column=0, row=1, columnspan=1, tabs={}, **args):
@@ -21,10 +18,5 @@ class Window(tk.Frame):
         self.tabsBar=WindowTabs(self, tabs=tabs)
         if len(self.tabs.keys())>0: 
             self.content=self.tabs[list(self.tabs.keys())[self.selectedTab]](self, highlightbackground='black', bg='#3E3E42', highlightthickness=2, height=256, width=256)
-            
-        # TODO tmp :)
-        # if list(self.tabs.keys())[0]=='EntityInfo':
-        #     self.EntityInfo = EntityInfo(self)
-        # if list(self.tabs.keys())[0]=='AllEntitiesInfo':
-        #     self.AllEntitiesInfo = AllEntitiesInfo(self)
+
             

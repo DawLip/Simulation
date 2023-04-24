@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from .components.Txt import Txt
+from ..components.Txt import Txt
 
 from model.entities.Entity import Entity
 

@@ -1,4 +1,5 @@
-from pygame import image
+from PIL import Image
+
 from data import data
 
 from .Entity import Entity
@@ -16,7 +17,7 @@ class Organism(Entity):
         buildingPoints: int,
         cooldown: int = 0,
         parent: object = None,
-        img = image.load(r'./resources/img/organism.png'),
+        img = Image.open(r'./resources/img/organism.png'),
         ):
         super().__init__(x, y, img)
         self.energy = energy
