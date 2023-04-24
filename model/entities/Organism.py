@@ -3,8 +3,7 @@ from PIL import Image
 from data import data
 
 from .Entity import Entity
-from .tmp.Tmp_food import TmpFood
-
+from .tmp.TmpFood import TmpFood
 # TODO add additional attributes
 class Organism(Entity):
     all=[]
