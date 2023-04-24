@@ -12,5 +12,4 @@ class WindowTab(tk.Button):
             highlightthickness=0,
             **args
         )
-        print(text)
         self.grid(column=column, row=row, sticky='w')
