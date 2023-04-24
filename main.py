@@ -14,3 +14,13 @@ if __name__ =="__main__":
     appT.start()
     # debugT.start()
     # appT.join()
+    
+    
+# Simulation 0.1
+# GUI:
+#  - rewrite GUI to "tkinter"
+#  - add basic Simulation rendering
+#  - add basic (not refreshing) windows menagment
+# model:
+#  - add constructors for: Entity, Organism, AdditionalCell, MapConstructor, OrganicMatter, CollisionMap
+#  - add basic "AI" for Organism
