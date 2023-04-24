@@ -40,3 +40,5 @@ class App(tk.Tk):
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
 
+        self.mainloop()
+

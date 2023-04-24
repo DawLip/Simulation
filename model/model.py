@@ -2,7 +2,7 @@ import time
 from random import randrange
 
 from .initializeData import initializeData
-from .entities.importEntities import Organism
+from .entities.importEntities import Organism, Entity
 
 from .entities.tmp.Tmp_food import TmpFood
 
