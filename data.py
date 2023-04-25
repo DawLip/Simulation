@@ -2,10 +2,11 @@ data={
     'exit':False,
     'isSimRunning': True,
 
-    'simHeight': 64,
-    'simWidth': 128,
+    'simHeight': 64*2,
+    'simWidth': 128*2,
 
-    'frameRate': 30,
+    'frameRate': 20,
+    'GUIframeRate': 10,
     'debugShowDelay': 1000,
     'modelIterationDelay': 50,
 
@@ -18,7 +19,10 @@ data={
     # 'initialFoodNumber': 30,
     
     # 'OrganicMatter': Tmp()
-    'CollisionMap': object()
+    'CollisionMap': object(),
+
+    'IsKeyPressedEvent': False,
+    'keyPressed':None
 }
 
 environment={}
@@ -34,3 +38,6 @@ GUI={
     'topBarButtons':[]
 }
  
+debug={
+    't1': 0
+}

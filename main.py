@@ -1,5 +1,6 @@
 import threading
 from model.model import model
+import time
 
 from App import App
 def appStart():
@@ -11,6 +12,7 @@ if __name__ =="__main__":
     # debugT = threading.Thread(target=debug)
  
     modelT.start()
+    time.sleep(1)
     appT.start()
     # debugT.start()
     # appT.join()

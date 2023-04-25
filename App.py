@@ -13,6 +13,7 @@ class App(tk.Tk):
     rootWindow=None
     topMenu=None
     windows=[]
+    keyPressed=None
 
     def __init__(self):
         super().__init__()
@@ -45,4 +46,3 @@ class App(tk.Tk):
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
 
         self.mainloop()
-
