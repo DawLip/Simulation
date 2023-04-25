@@ -30,7 +30,7 @@ class Simulation(WindowApp):
         self.wPressed=False
         self.sPressed=False
 
-        img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "gray")
+        img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "red")
         self.img = ImageTk.PhotoImage(img)
 
         self.imgContainer = tk.Label(self, image=self.img, borderwidth=0, highlightthickness=0)
@@ -55,7 +55,7 @@ class Simulation(WindowApp):
         if self.sPressed:
             self.y+=const*self.scale
 
-        img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "gray")
+        img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "#ccc")
 
         for entity in Entity.all:
             img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img)      
