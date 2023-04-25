@@ -41,14 +41,15 @@ class Simulation(WindowApp):
         return super().inicialize()
 
     def refresh(self, **args):
+        const=20
         if self.dPressed:
-            self.x+=4*self.scale
+            self.x+=const*self.scale
         if self.aPressed:
-            self.x-=4*self.scale
+            self.x-=const*self.scale
         if self.wPressed:
-            self.y-=4*self.scale
+            self.y-=const*self.scale
         if self.sPressed:
-            self.y+=4*self.scale
+            self.y+=const*self.scale
 
         img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "gray")
 
