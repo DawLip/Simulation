@@ -38,7 +38,5 @@ class AllEntitiesInfo(WindowApp):
             Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg'])
             i+=1
             
-        #debug info
-        Txt(self, row=i, column=0, text=debug['t1'], bg=args['bg'])
     
         

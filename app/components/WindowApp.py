@@ -17,4 +17,4 @@ class WindowApp(tk.Frame):
         pass
 
     def refresh(self, frameRate=data['GUIframeRate'], **args):
-        self.after(math.floor(1000/frameRate), partial(self.refresh, **args))
+        self.after(int(1000/frameRate), partial(self.refresh, **args))

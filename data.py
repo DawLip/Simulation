@@ -1,11 +1,12 @@
 data={
     'exit':False,
     'isSimRunning': True,
+    'isModelReady': False,
 
     'simHeight': 64*2,
     'simWidth': 128*2,
 
-    'frameRate': 20,
+    'frameRate': 0,
     'GUIframeRate': 10,
     'debugShowDelay': 1000,
     'modelIterationDelay': 50,
@@ -39,5 +40,7 @@ GUI={
 }
  
 debug={
-    't1': 0
+    't1': 0,
+    'executionTimerStart':0,
+    'timerResult':0
 }

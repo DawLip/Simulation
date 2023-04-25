@@ -5,6 +5,7 @@ class WindowTab(tk.Button):
         if text == "AllEntitiesInfo" or text == "EntityInfo": self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp1.png"),
         elif text == "Simulation": self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp2.png"),
         else: self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp3.png"),
+
         super().__init__(
             parent,
             image=self.img,

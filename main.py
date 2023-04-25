@@ -1,8 +1,11 @@
 import threading
-from model.model import model
 import time
 
-from App import App
+from model.model import model
+from app.App import App
+
+from data import data
+
 def appStart():
     app = App()
 
@@ -12,10 +15,14 @@ if __name__ =="__main__":
     # debugT = threading.Thread(target=debug)
  
     modelT.start()
-    time.sleep(1)
+    while not data['isModelReady']:
+        time.sleep(0.1)
     appT.start()
+        
     # debugT.start()
-    # appT.join()
+
+    appT.join()
+    modelT.join()
     
     
 # Simulation 0.1

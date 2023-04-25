@@ -7,6 +7,8 @@ from app.components.WindowApp import WindowApp
 from model.entities.importEntities import Entity
 from data import data, GUI, debug
 
+from debug.debug import timerStart, timerStop
+
 imgFood = Image.open("./resources/img/food.png")
 
 class Simulation(WindowApp):
@@ -41,6 +43,8 @@ class Simulation(WindowApp):
         return super().inicialize()
 
     def refresh(self, **args):
+        timerStart()
+
         const=20
         if self.dPressed:
             self.x+=const*self.scale
@@ -62,8 +66,14 @@ class Simulation(WindowApp):
         
         self.img = ImageTk.PhotoImage(img)
         self.imgContainer.config(image=self.img)
-        
-        return super().refresh(frameRate=data['frameRate'])
+
+        # set framerate
+        executionTime=timerStop()
+        if executionTime<5: executionTime=5
+        fr=int(1000/executionTime)
+        data['frameRate']=fr
+
+        return super().refresh(frameRate=fr)
     
     def onScroll(self, e):
         self.scale = self.scale - self.scale*.1*e.delta/120*-1

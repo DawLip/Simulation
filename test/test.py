@@ -1,22 +1,52 @@
-# Import required libraries
-from tkinter import *
-from PIL import ImageTk, Image
+from tkinter import Tk, Frame, Menu
 
-# Create an instance of tkinter window
-win = Tk()
 
-# Define the geometry of the window
-win.geometry("700x500")
+# root window
+root = Tk()
+root.geometry('320x150')
+root.title('Menu Demo')
 
-frame = Frame(win, width=600, height=400)
-frame.pack()
-frame.place(anchor='center', relx=0.5, rely=0.5)
 
-# Create an object of tkinter ImageTk
-img = ImageTk.PhotoImage(Image.open("./resources/img/food.png"))
+# create a menubar
+menubar = Menu(root)
+root.config(menu=menubar)
 
-# Create a Label Widget to display the text or Image
-label = Label(frame, image = img)
-label.pack()
+# create the file_menu
+file_menu = Menu(
+    menubar,
+    tearoff=0
+)
 
-win.mainloop()
+# add menu items to the File menu
+file_menu.add_command(label='New')
+file_menu.add_command(label='Open...')
+file_menu.add_command(label='Close')
+file_menu.add_separator()
+
+# add Exit menu item
+file_menu.add_command(
+    label='Exit',
+    command=root.destroy
+)
+
+# add the File menu to the menubar
+menubar.add_cascade(
+    label="File",
+    menu=file_menu
+)
+# create the Help menu
+help_menu = Menu(
+    menubar,
+    tearoff=0
+)
+
+help_menu.add_command(label='Welcome')
+help_menu.add_command(label='About...')
+
+# add the Help menu to the menubar
+menubar.add_cascade(
+    label="Help",
+    menu=help_menu
+)
+
+root.mainloop()
