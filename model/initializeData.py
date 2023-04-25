@@ -24,4 +24,3 @@ def initializeData():
         Organism(
             randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1), 100, 10
         )
-    print(data["CollisionMap"])

@@ -32,13 +32,13 @@ class Organism(Entity):
         # place for additional attributes
 
         Organism.all.append(self)
-        data["CollisionMap"].map[y][x] = 1
+        data["CollisionMap"].map[y][x] = True
 
     def delete(self):
         if Organism.all.count(self):
             Organism.all.pop(Organism.all.index(self))
             Entity.all.pop(Entity.all.index(self))
-            data["CollisionMap"].map[self.y][self.x] = 0
+            data["CollisionMap"].map[self.y][self.x] = False
 
     def eat(self, nearestFood):
         # TODO tmp value
@@ -59,9 +59,10 @@ class Organism(Entity):
         return nearestFood
 
     def move(self, nearestFood):
-        # TODO tmp value
         if self.energy > 1:
+            # TODO tmp value
             self.energy -= 1
+            data['CollisionMap'].map[self.y][self.x] = False
             # TODO tmp value
             self.cooldown = 1
             nearestFoodX = nearestFood.x - self.x
@@ -74,10 +75,9 @@ class Organism(Entity):
             else:
                 if nearestFoodY > 0:
                     self.y += 1
-                # TODO check
                 else:
                     self.y -= 1
-                # elif nearestFoodY != 0: self.y -= 1
+            data['CollisionMap'].map[self.y][self.x] = True
         # TODO tmp solution
         else:
             self.delete()
@@ -101,8 +101,8 @@ class Organism(Entity):
                 if nearestFood.x == self.x and nearestFood.y == self.y:
                     self.eat(nearestFood)
                 # TODO tmp value
-                elif self.energy - self.divisionCost > 150:
-                    self.division()
+                # elif self.energy - self.divisionCost > 150:
+                #     self.division()
                 else:
                     self.move(nearestFood)
         else:
