@@ -8,7 +8,8 @@ class WindowApp(tk.Frame):
     def __init__(self, parent, **args):
         super().__init__(parent, **args)
 
-        self.grid(column=0, row=1, sticky='wens')
+        self.grid_propagate(False)
+        self.grid(column=0, row=2, sticky='wens')
 
         self.inicialize()
         self.refresh(**args)

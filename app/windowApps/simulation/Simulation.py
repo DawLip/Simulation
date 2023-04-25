@@ -18,7 +18,7 @@ class Simulation(WindowApp):
 
         super().__init__(parent, **args)
 
-        self.grid(sticky='wens')
+        self.grid(row=2, sticky='wens')
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 

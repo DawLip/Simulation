@@ -12,7 +12,7 @@ class AllEntitiesInfo(WindowApp):
     def __init__(self, parent, **args):
         super().__init__(parent, **args)
         
-        self.grid(sticky='nesw')
+        self.grid(row=2, sticky='nesw')
         self.columnconfigure(0, weight=1)
 
     def refresh(self, **args):

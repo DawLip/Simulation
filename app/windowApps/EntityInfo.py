@@ -10,7 +10,7 @@ class EntityInfo(WindowApp):
     def __init__(self, parent, **args):
         super().__init__(parent, **args)
         
-        self.grid(sticky='nswe')
+        self.grid(row=2, sticky='nswe')
         self.columnconfigure(0, weight=1)
 
     def inicialize(self):
