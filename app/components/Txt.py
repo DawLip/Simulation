@@ -7,4 +7,5 @@ class Txt(tk.Label):
             fg='#D8D8E6', 
             **args
         )
+
         self.grid(column=column, row=row, sticky=sticky)

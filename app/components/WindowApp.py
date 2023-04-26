@@ -11,10 +11,10 @@ class WindowApp(tk.Frame):
         self.grid_propagate(False)
         self.grid(column=0, row=2, sticky='wens')
 
-        self.inicialize()
+        self.inicialize(**args)
         self.refresh(**args)
 
-    def inicialize(self):
+    def inicialize(self, **args):
         pass
 
     def refresh(self, frameRate=data['GUIframeRate'], **args):

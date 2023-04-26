@@ -26,9 +26,9 @@ class Window(tk.Frame):
             self.content=self.tabs[list(self.tabs.keys())[self.selectedTab]](self, highlightbackground='black', bg='#3E3E42', highlightthickness=2, height=256, width=256)
 
     def changeSelectedTab(self, newSelection):
-        tab=self.tabs[list(self.tabs.keys())[self.selectedTab]]
+        self.tab=self.tabs[list(self.tabs.keys())[self.selectedTab]]
 
         self.selectedTab=newSelection
+        self.content.destroy()
         self.refresh()
-        self.update()
             

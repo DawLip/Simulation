@@ -13,29 +13,44 @@ class EntityInfo(WindowApp):
         self.grid(row=2, sticky='nswe')
         self.columnconfigure(0, weight=1)
 
-    def inicialize(self):
+    def inicialize(self, **args):
         self.selectedEntity = Entity.all[-1]
-        return super().inicialize()
-    
-    def refresh(self, **args):
-        if len(Entity.all)>0:
-            self.initializeTxts(self.selectedEntity, **args)
+        self.labelList=[]
 
-        return super().refresh(**args)
-
-    def initializeTxts(self, obj, **args):
         i=0
         res = []
-        for k, value in obj.__dict__.items():
+        for k, value in self.selectedEntity.__dict__.items():
             keyIndex=0
             for i, letter in enumerate(k[::-1]):
                 if letter=='_': 
                     keyIndex=i
                     break
             res.append((k[-keyIndex:],value))
+
         for key, value in res:
-            Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg'])
+            self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
             i+=1
+
+        return super().inicialize(**args)
+    
+    def refresh(self, **args):
+        i=0
+        res = []
+        for k, value in self.selectedEntity.__dict__.items():
+            keyIndex=0
+            for i, letter in enumerate(k[::-1]):
+                if letter=='_': 
+                    keyIndex=i
+                    break
+            res.append((k[-keyIndex:],value))
+
+        for key, value in res:
+            if i<len(self.labelList):
+                self.labelList[i].config(text=f"{key}: {value}")
+                i+=1
+
+
+        return super().refresh(**args)
     
     
         

@@ -22,7 +22,7 @@ class Simulation(WindowApp):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-    def inicialize(self):
+    def inicialize(self, **args):
         self.scale=1
 
         self.dPressed=False

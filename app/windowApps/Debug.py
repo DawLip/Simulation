@@ -15,7 +15,7 @@ class Debug(WindowApp):
         self.grid(sticky='nswe')
         self.columnconfigure(0, weight=1)
 
-    def inicialize(self):
+    def inicialize(self, **args):
         self.selectedEntity = Entity.all[-1]
         return super().inicialize()
     
