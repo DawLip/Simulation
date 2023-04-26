@@ -1,5 +1,5 @@
-data={
-    'exit':False,
+data = {
+    'exit': False,
     'isSimRunning': True,
     'isModelReady': False,
 
@@ -13,34 +13,34 @@ data={
 
     'id': 0,
     'tick': 1,
-    
-    'initialCellNumber': 4,
+
+    'initialCellNumber': 50,
     'initialFoodNumber': 200,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
-    
+
     # 'OrganicMatter': Tmp()
     'CollisionMap': object(),
 
     'IsKeyPressedEvent': False,
-    'keyPressed':None
+    'keyPressed': None
 }
 
-environment={}
+environment = {}
 
-GUI={
+GUI = {
     'windowWidth': 1920,
     'windowHeight': 1080-64,
 
     'windowTitle': "Simulation",
-    'sprites':[],
+    'sprites': [],
     'texturesSize': 8,
-    'textures':{},
-    'topBarButtons':[]
+    'textures': {},
+    'topBarButtons': []
 }
- 
-debug={
+
+debug = {
     't1': 0,
-    'executionTimerStart':0,
-    'timerResult':0
+    'executionTimerStart': 0,
+    'timerResult': 0
 }

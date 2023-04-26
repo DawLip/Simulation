@@ -6,6 +6,8 @@ from .Entity import Entity
 from .tmp.TmpFood import TmpFood
 
 # TODO add additional attributes
+
+
 class Organism(Entity):
     all = []
     # TODO tmp value - divisionCost
@@ -28,6 +30,7 @@ class Organism(Entity):
         self.cooldown = cooldown
         self.parent = parent
         self.children = []
+        self.memory = []
 
         # place for additional attributes
 
@@ -62,23 +65,28 @@ class Organism(Entity):
         if self.energy > 1:
             # TODO tmp value
             self.energy -= 1
-            data['CollisionMap'].map[self.y][self.x] = False
             # TODO tmp value
             self.cooldown = 1
             nearestFoodX = nearestFood.x - self.x
             nearestFoodY = nearestFood.y - self.y
+            wantToGo = [self.x, self.y]
             if abs(nearestFoodX) > abs(nearestFoodY):
                 if nearestFoodX > 0:
-                    self.x += 1
+                    wantToGo[0] += 1
                 else:
-                    self.x -= 1
+                    wantToGo[0] -= 1
             else:
                 if nearestFoodY > 0:
-                    self.y += 1
+                    wantToGo[1] += 1
                 else:
-                    self.y -= 1
-            data['CollisionMap'].map[self.y][self.x] = True
-        # TODO tmp solution
+                    wantToGo[1] -= 1
+            if data['CollisionMap'].map[wantToGo[1]][wantToGo[0]] == False:
+                data['CollisionMap'].map[self.y][self.x] = False
+                self.x = wantToGo[0]
+                self.y = wantToGo[1]
+                data['CollisionMap'].map[self.y][self.x] = True
+            else:
+                pass
         else:
             self.delete()
 
@@ -96,15 +104,20 @@ class Organism(Entity):
     # TODO AI on IFs
     def brain(self):
         if self.cooldown == 0:
-            nearestFood = self.lookingForFood()
-            if nearestFood != None:
-                if nearestFood.x == self.x and nearestFood.y == self.y:
-                    self.eat(nearestFood)
-                # TODO tmp value
-                # elif self.energy - self.divisionCost > 150:
-                #     self.division()
-                else:
-                    self.move(nearestFood)
+            if len(self.memory) > 0:
+                # memory = self.memory.pop(0)
+                # if
+                pass
+            else:
+                nearestFood = self.lookingForFood()
+                if nearestFood != None:
+                    if nearestFood.x == self.x and nearestFood.y == self.y:
+                        self.eat(nearestFood)
+                    # TODO tmp value
+                    elif self.energy - self.divisionCost > 150:
+                        self.division()
+                    else:
+                        self.move(nearestFood)
         else:
             self.cooldown -= 1
 
@@ -149,7 +162,8 @@ class Organism(Entity):
 
     @parent.setter
     def parent(self, newValue: object):
-        assert isinstance(newValue, (object, None)), "parent must be an object or None"
+        assert isinstance(newValue, (object, None)
+                          ), "parent must be an object or None"
         self.__parent = newValue
 
     @property
@@ -171,6 +185,14 @@ class Organism(Entity):
             isinstance(newValue, int) and newValue >= 0
         ), f"cooldown: {self.cooldown}; cooldown must be an int and cooldown >= 0"
         self.__cooldown = newValue
+
+    @property
+    def memory(self):
+        return self.__memory
+
+    @memory.setter
+    def memory(self, newValue):
+        self.__memory = newValue
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.x}, {self.y}, {self.energy}, {self.buildingPoints}, {self.cooldown}, {self.parent}, {self.img})"
