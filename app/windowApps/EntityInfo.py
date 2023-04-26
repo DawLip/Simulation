@@ -17,23 +17,15 @@ class EntityInfo(WindowApp):
         self.selectedEntity = Entity.all[-1]
         self.labelList=[]
 
-        i=0
-        res = []
-        for k, value in self.selectedEntity.__dict__.items():
-            keyIndex=0
-            for i, letter in enumerate(k[::-1]):
-                if letter=='_': 
-                    keyIndex=i
-                    break
-            res.append((k[-keyIndex:],value))
-
-        for key, value in res:
-            self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
-            i+=1
+        self.render(True, **args)
 
         return super().inicialize(**args)
     
     def refresh(self, **args):
+        self.render(**args)
+        return super().refresh(**args)
+    
+    def render(self, isInicialize=False, **args):
         i=0
         res = []
         for k, value in self.selectedEntity.__dict__.items():
@@ -43,15 +35,15 @@ class EntityInfo(WindowApp):
                     keyIndex=i
                     break
             res.append((k[-keyIndex:],value))
-        # print(res)
+
         i=0
-        for key, value in res:
-            if i<len(self.labelList):
-                self.labelList[i].config(text=f"{key}: {value}")
-                i+=1
-
-
-        return super().refresh(**args)
+        for key, value in res:    
+            if isInicialize:
+                self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
+            else:
+                if i<len(self.labelList):
+                    self.labelList[i].config(text=f"{key}: {value}")
+            i+=1
     
     
         

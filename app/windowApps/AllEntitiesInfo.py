@@ -17,28 +17,16 @@ class AllEntitiesInfo(WindowApp):
 
     def inicialize(self, **args):
         self.labelList=[]
-
-        if len(Entity.all)>0:
-            d = {}
-            for entity in Entity.all:
-                isFirstElement=True
-                for element in list(d.keys()):
-                    if entity.__class__.__name__==element:
-                        d[entity.__class__.__name__]+=1
-                        isFirstElement=False
-                        break
-                    
-                if isFirstElement:
-                    d[entity.__class__.__name__]=1
-                    
-            i=0
-            for key, value in  d.items():
-                self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
-                i+=1
+        
+        self.render(True, **args)
 
         return super().inicialize(**args)
 
     def refresh(self, **args):
+        self.render(**args)
+        return super().refresh(**args)
+
+    def render(self, isInicialize=False, **args):
         d = {}
         for entity in Entity.all:
             isFirstElement=True
@@ -53,10 +41,12 @@ class AllEntitiesInfo(WindowApp):
                 
         i=0
         for key, value in  d.items():
-            self.labelList[i].config(text=f"{key}: {value}")
+            if isInicialize:
+                self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
+            else:               
+                self.labelList[i].config(text=f"{key}: {value}")
             i+=1
-        return super().refresh(**args)
-
+        
         
             
     
