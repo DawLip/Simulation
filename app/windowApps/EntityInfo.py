@@ -43,7 +43,8 @@ class EntityInfo(WindowApp):
                     keyIndex=i
                     break
             res.append((k[-keyIndex:],value))
-
+        # print(res)
+        i=0
         for key, value in res:
             if i<len(self.labelList):
                 self.labelList[i].config(text=f"{key}: {value}")
