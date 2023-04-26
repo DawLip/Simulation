@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from .WindowTabs import WindowTabs
+from .WindowMenu import WindowMenu
 
 class Window(tk.Frame):
     def __init__(self, parent, column=0, row=1, columnspan=1, tabs={}, **args):
@@ -10,13 +11,24 @@ class Window(tk.Frame):
         self.grid_propagate(False)
 
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
 
         self.tabs=tabs
         self.selectedTab=0
         
-        self.tabsBar=WindowTabs(self, tabs=tabs)
+        self.menu=WindowMenu(self, options=["test"])
+        self.tabsBar=WindowTabs(self, tabs=tabs, command=self.changeSelectedTab)
+
+        self.refresh()
+
+    def refresh(self):
         if len(self.tabs.keys())>0: 
             self.content=self.tabs[list(self.tabs.keys())[self.selectedTab]](self, highlightbackground='black', bg='#3E3E42', highlightthickness=2, height=256, width=256)
 
+    def changeSelectedTab(self, newSelection):
+        self.tab=self.tabs[list(self.tabs.keys())[self.selectedTab]]
+
+        self.selectedTab=newSelection
+        self.content.destroy()
+        self.refresh()
             

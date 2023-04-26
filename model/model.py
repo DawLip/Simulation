@@ -9,10 +9,11 @@ from .entities.tmp.TmpFood import TmpFood
 from data import data
 
 def model():
-    time.sleep(0.1)
-
     initializeData()
     
+    if not data['isModelReady']:
+        data['isModelReady'] = True
+        
     while not data['exit']:
         time.sleep(.01)
         while data['isSimRunning']:

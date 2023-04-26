@@ -1,40 +1,102 @@
 import tkinter as tk 
 import math
-from PIL import ImageTk, Image
+from PIL import ImageTk, Image, ImageDraw
+
+from app.components.WindowApp import WindowApp
 
 from model.entities.importEntities import Entity
-from data import data, GUI
+from data import data, GUI, debug
+
+from debug.debug import timerStart, timerStop
 
 imgFood = Image.open("./resources/img/food.png")
 
-class Simulation(tk.Frame):
+class Simulation(WindowApp):
     def __init__(self, parent, **args):
+        self.x=0
+        self.y=0
+
         super().__init__(parent, **args)
 
-        self.grid(sticky='wens')
+        self.grid(row=2, sticky='wens')
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "gray")
+    def inicialize(self, **args):
+        self.scale=1
 
+        self.dPressed=False
+        self.aPressed=False
+        self.wPressed=False
+        self.sPressed=False
+
+        img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "red")
         self.img = ImageTk.PhotoImage(img)
+
         self.imgContainer = tk.Label(self, image=self.img, borderwidth=0, highlightthickness=0)
         self.imgContainer.grid(column=0, row=0)
 
-        self.refresh()
+        self.imgContainer.bind('<MouseWheel>', self.onScroll)
+        self.imgContainer.bind_all('<KeyPress>', self.onKeyPress)
+        self.imgContainer.bind_all('<KeyRelease>', self.onKeyRelease)
 
+        return super().inicialize()
 
-    def refresh(self):
-        img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "gray")
+    def refresh(self, **args):
+        timerStart()
+
+        const=20
+        if self.dPressed:
+            self.x+=const*self.scale
+        if self.aPressed:
+            self.x-=const*self.scale
+        if self.wPressed:
+            self.y-=const*self.scale
+        if self.sPressed:
+            self.y+=const*self.scale
+
+        img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "#ccc")
 
         for entity in Entity.all:
-            img.paste(entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']))
-            
+            img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img)      
 
+        img.thumbnail((math.floor(self.winfo_width()*self.scale), math.floor(self.winfo_height()*self.scale)))
+        
+        img = img.crop((self.x, self.y, self.winfo_width()+self.x, self.winfo_height()+self.y))
+        
         self.img = ImageTk.PhotoImage(img)
         self.imgContainer.config(image=self.img)
-        
-        self.after(math.floor(1000/data['frameRate']), self.refresh)
+
+        # set framerate
+        executionTime=timerStop()
+        if executionTime<5: executionTime=5
+        fr=int(1000/executionTime)
+        data['frameRate']=fr
+
+        return super().refresh(frameRate=fr)
+    
+    def onScroll(self, e):
+        self.scale = self.scale - self.scale*.1*e.delta/120*-1
+
+    def onKeyPress(self, e):
+        if e.char=='d':
+            self.dPressed=True
+        elif e.char=='a':
+            self.aPressed=True
+        elif e.char=='w':
+            self.wPressed=True
+        elif e.char=='s':
+            self.sPressed=True
+            
+    def onKeyRelease(self, e):
+        if e.char=='d':
+            self.dPressed=False
+        elif e.char=='a':
+            self.aPressed=False
+        elif e.char=='w':
+            self.wPressed=False
+        elif e.char=='s':
+            self.sPressed=False
     
     
     # def refresh(self):
