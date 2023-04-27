@@ -6,7 +6,7 @@ from .entities.importEntities import Organism, Entity
 
 from .entities.tmp.TmpFood import TmpFood
 
-from data import data
+from data import data, debug
 
 def model():
     initializeData()
@@ -23,4 +23,6 @@ def model():
                 organism.brain()
                 
             data['tick'] += 1
+
+            debug['tickCounter']+=1
             time.sleep(data['modelIterationDelay']/1000)

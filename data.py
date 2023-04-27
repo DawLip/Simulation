@@ -14,8 +14,8 @@ data = {
     'id': 0,
     'tick': 1,
 
-    'initialCellNumber': 50,
-    'initialFoodNumber': 200,
+    'initialCellNumber': 5,
+    'initialFoodNumber': 100,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 
@@ -40,7 +40,7 @@ GUI = {
 }
 
 debug = {
-    't1': 0,
-    'executionTimerStart': 0,
+    'tickCounter': 0,
     'timerResult': 0
 }
+

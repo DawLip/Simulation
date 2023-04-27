@@ -1,6 +1,6 @@
 from PIL import Image
 
-from data import data
+from data import data, debug
 
 from .Entity import Entity
 from .tmp.TmpFood import TmpFood
@@ -30,6 +30,7 @@ class Organism(Entity):
         self.cooldown = cooldown
         self.parent = parent
         self.children = []
+        # always ('what to do', <target>)
         self.memory = []
 
         # place for additional attributes
@@ -100,23 +101,34 @@ class Organism(Entity):
             newX += 2
         self.children.append(Organism(newX, self.y, self.divisionCost, 0, 20, self))
 
+    def memoryHandler(self):
+        if self.memory[0][0] == 'goToFood':
+            # TODO tmp solution
+            if self.memory[0][1].isExist:
+                if self.memory[0][1].x == self.x and self.memory[0][1].y == self.y:
+                    self.eat(self.memory[0][1])
+                    self.memory.pop(0)
+                else:
+                    self.move(self.memory[0][1])
+            else:
+                self.memory.pop(0)
+
     # ------------------------ brain ------------------------
     # TODO AI on IFs
     def brain(self):
         if self.cooldown == 0:
             if len(self.memory) > 0:
-                # memory = self.memory.pop(0)
-                # if
-                pass
+                self.memoryHandler()
             else:
                 nearestFood = self.lookingForFood()
                 if nearestFood != None:
                     if nearestFood.x == self.x and nearestFood.y == self.y:
                         self.eat(nearestFood)
                     # TODO tmp value
-                    elif self.energy - self.divisionCost > 150:
+                    elif self.energy - self.divisionCost > 200:
                         self.division()
                     else:
+                        self.memory.append(('goToFood',nearestFood))
                         self.move(nearestFood)
         else:
             self.cooldown -= 1
