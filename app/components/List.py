@@ -19,7 +19,7 @@ class List(tk.Frame):
         self.icon = tk.Label(self, image=self.iconImg, bg=args['bg']).grid(row=0, column=0)
         self.label = Txt(self, row=0, column=1, text=text, bg=args['bg'])
         
-        self.focus_set()
+        # self.focus_set()
         # self.bind('<Button-1>', self.onClick)
         
     def conf(self, text):
