@@ -35,8 +35,22 @@ GUI = {
     'windowTitle': "Simulation",
     'sprites': [],
     'texturesSize': 8,
-    'textures': {},
-    'topBarButtons': []
+    'textures':{},
+    'topBarButtons':[],
+    
+    'colors':{
+        '0 color': '#1E1E26',
+        '1 color': '#282834',
+        '2 color': '#313140',
+        '3 color': '#3B3B4D',
+        
+        '0 borderColor': '#14141A',
+        '1 borderColor': '#1D1D26',
+        '2 borderColor': '#272733',
+        '3 borderColor': '#454559',
+        
+        'Font White': '#E4E4E7',
+    }
 }
 
 debug = {

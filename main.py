@@ -27,20 +27,10 @@ if __name__ == "__main__":
     modelT.join()
 
 
-# Simulation 0.1.1
+# Simulation 0.2
 # GUI:
-#   add
-#       -basic menu template
-#       -map resizing
-#       -moving camera
-#       -windowApp refreshing
-#       -basic windowApp menu bars
-#   changes
-#       -move App.py file to "app" folder
-#       -simulation render framerate depends now on simulation render time
-#   bugfix
-#       -whole app close correctly now
-#       -app does not wait 1s before start
-#       -optimalization GUI rendering
+#   - graphical update
 # model:
-#   - start adding colisions
+#   - add "name" property for Entity
+#   - add memory for Organism 
+#   - finish handling collisions

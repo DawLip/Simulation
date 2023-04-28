@@ -3,14 +3,15 @@ import tkinter as tk
 from app.components.WindowApp import WindowApp
 
 from ..components.Txt import Txt
+from ..components.List import List
 
 from model.entities.Entity import Entity
 
 from data import debug
 
-class AllEntitiesInfo(WindowApp):
+class Entities(WindowApp):
     def __init__(self, parent, **args):
-        super().__init__(parent, **args)
+        super().__init__(parent, padx=4, pady=4, **args)
         
         self.grid(row=2, sticky='nesw')
         self.columnconfigure(0, weight=1)
@@ -42,9 +43,9 @@ class AllEntitiesInfo(WindowApp):
         i=0
         for key, value in  d.items():
             if isInicialize:
-                self.labelList.append(Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
+                self.labelList.append(List(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
             else:               
-                self.labelList[i].config(text=f"{key}: {value}")
+                self.labelList[i].conf(text=f"{key}: {value}")
             i+=1
         
         

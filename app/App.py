@@ -6,8 +6,8 @@ from .components.TopMenu import TopMenu
 
 from .windowApps.simulation.Simulation import Simulation
 from .windowApps.Placeholder import Placeholder
-from .windowApps.AllEntitiesInfo import AllEntitiesInfo
-from .windowApps.EntityInfo import EntityInfo
+from .windowApps.Entities import Entities
+from .windowApps.Inspector import Inspector
 from .windowApps.Debug import Debug
 
 from data import data
@@ -40,17 +40,15 @@ class App(tk.Tk):
         self.windowApps={
             'Simulation': Simulation,
             'Placeholder': Placeholder,
-            'AllEntitiesInfo': AllEntitiesInfo,
-            'EntityInfo': EntityInfo,
+            'Entities': Entities,
+            'Inspector': Inspector,
             'Debug': Debug,
         }
 
         # Render windows
-        TopMenu(self)
-        
-        self.windows.append(Window(self, column=0, width=256,              tabs={'AllEntitiesInfo': self.windowApps['AllEntitiesInfo'], 'Debug':self.windowApps['Debug']}))
+        self.windows.append(Window(self, column=0, width=256,              tabs={'Entities': self.windowApps['Entities'], 'Debug':self.windowApps['Debug']}))
         self.windows.append(Window(self, column=1,                         tabs={'Simulation': self.windowApps['Simulation']}))
-        self.windows.append(Window(self, column=2, width=256,              tabs={'EntityInfo': self.windowApps['EntityInfo']}))
+        self.windows.append(Window(self, column=2, width=256,              tabs={'Inspector': self.windowApps['Inspector']}))
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
 
