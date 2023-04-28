@@ -6,6 +6,8 @@ from ..components.Txt import Txt
 from ..components.List import List
 
 from model.entities.Entity import Entity
+from model.entities.Organism import Organism
+from model.entities.tmp.TmpFood import TmpFood
 
 from data import debug
 
@@ -43,7 +45,7 @@ class Entities(WindowApp):
         i=0
         for key, value in  d.items():
             if isInicialize:
-                self.labelList.append(List(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg']))
+                self.labelList.append(List(self, row=i, column=0, text=f"{key}: {value}", data=eval(f'{key}.all'), bg=args['bg']))
             else:               
                 self.labelList[i].conf(text=f"{key}: {value}")
             i+=1
