@@ -3,9 +3,11 @@ from functools import partial
 
 from .WindowMenuOption import WindowMenuOption
 
+from data import GUI
+
 class WindowMenu(tk.Frame):
     def __init__(self, parent, column=0, row=1,  options=[], **args):
-        super().__init__(parent, bg='black', highlightbackground='black', highlightthickness=2, *args)
+        super().__init__(parent, bg=GUI['colors']['0 color'], highlightbackground=GUI['colors']['1 borderColor'], highlightthickness=1, *args)
 
         self.grid(column=column, row=row, sticky='wens')
         # self.grid_propagate(False)

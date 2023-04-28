@@ -10,7 +10,7 @@ from data import debug
 
 class Debug(WindowApp):
     def __init__(self, parent, **args):
-        super().__init__(parent, **args)
+        super().__init__(parent, padx=4, pady=4, **args)
         
         self.grid(sticky='nswe')
         self.columnconfigure(0, weight=1)

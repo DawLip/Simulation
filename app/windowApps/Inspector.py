@@ -6,9 +6,9 @@ from ..components.Txt import Txt
 
 from model.entities.Entity import Entity
 
-class EntityInfo(WindowApp):
+class Inspector(WindowApp):
     def __init__(self, parent, **args):
-        super().__init__(parent, **args)
+        super().__init__(parent, padx=4, pady=4, **args)
         
         self.grid(row=2, sticky='nswe')
         self.columnconfigure(0, weight=1)
