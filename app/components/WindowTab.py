@@ -1,14 +1,15 @@
 import tkinter as tk
 
+from data import GUI
+
 class WindowTab(tk.Button):
-    def __init__(self, parent, text, column=0, row=0,  **args):
-        if text == "AllEntitiesInfo" or text == "EntityInfo": self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp1.png"),
-        elif text == "Simulation": self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp2.png"),
-        else: self.img = tk.PhotoImage(file = "./resources/GUI/GUItmp3.png"),
+    def __init__(self, parent, name, column=0, row=0,  **args):
+        self.img = tk.PhotoImage(file = f"./resources/GUI/Tabs/{name}Tab.png")
 
         super().__init__(
             parent,
             image=self.img,
+            bg=GUI['colors']['3 color'],
             borderwidth=0,
             highlightthickness=0,
             **args
