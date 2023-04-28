@@ -23,26 +23,37 @@ class Organism(Entity):
         parent: object = None,
         img=Image.open(r"./resources/img/organism.png"),
     ):
-        super().__init__(x, y, img)
+        x2 = x
+        y2 = y
+        counter = 0
+        while not data['CollisionMap'].tryOccupy(x2,y2):
+            if counter<data['simWidth']: 
+                x2 = (x2+1)%data['simWidth']
+            else: 
+                counter = 0                       
+                y2 = (y2+1)%data['simHeight']
+            counter+=1
+
+        super().__init__(x2, y2, img)
         self.energy = energy
         self.buildingPoints = buildingPoints
         self.additionalCells = []  # TODO by default Organizm have NO additionalCells
         self.cooldown = cooldown
         self.parent = parent
         self.children = []
-        # always ('what to do', <target>)
+        # always ('what to do', *args)
         self.memory = []
 
         # place for additional attributes
 
         Organism.all.append(self)
-        data["CollisionMap"].map[y][x] = True
+        # data["CollisionMap"].map[y][x] = True
 
     def delete(self):
         if Organism.all.count(self):
             Organism.all.pop(Organism.all.index(self))
             Entity.all.pop(Entity.all.index(self))
-            data["CollisionMap"].map[self.y][self.x] = False
+            data["CollisionMap"].freeUpPosition(self.x, self.y)
 
     def eat(self, nearestFood):
         # TODO tmp value
@@ -81,13 +92,15 @@ class Organism(Entity):
                     wantToGo[1] += 1
                 else:
                     wantToGo[1] -= 1
-            if data['CollisionMap'].map[wantToGo[1]][wantToGo[0]] == False:
-                data['CollisionMap'].map[self.y][self.x] = False
+            if data['CollisionMap'].tryOccupy(wantToGo[0], wantToGo[1]):
+                data['CollisionMap'].freeUpPosition(self.x, self.y) 
                 self.x = wantToGo[0]
                 self.y = wantToGo[1]
-                data['CollisionMap'].map[self.y][self.x] = True
+                if self.memory[0][0] == 'waitCollision':
+                    self.memory.pop(0)
+
             else:
-                pass
+                self.memory.insert(0, ('waitCollision', nearestFood))
         else:
             self.delete()
 
@@ -102,16 +115,58 @@ class Organism(Entity):
         self.children.append(Organism(newX, self.y, self.divisionCost, 0, 20, self))
 
     def memoryHandler(self):
-        if self.memory[0][0] == 'goToFood':
-            # TODO tmp solution
-            if self.memory[0][1].isExist:
-                if self.memory[0][1].x == self.x and self.memory[0][1].y == self.y:
-                    self.eat(self.memory[0][1])
+        match self.memory[0][0]:
+            case 'goToFood':
+                # TODO tmp solution
+                if self.memory[0][1].isExist:
+                    if self.memory[0][1].x == self.x and self.memory[0][1].y == self.y:
+                        self.eat(self.memory[0][1])
+                        self.memory.pop(0)
+                    else:
+                        self.move(self.memory[0][1])
+                else:
                     self.memory.pop(0)
+
+            case 'waitCollision':
+                if len(self.memory)>1 and self.memory[1][0] == 'waitCollision':
+                    self.memory.pop(0)
+                    self.memory.insert(0, ('collision', self.memory.pop(0)[1]))
                 else:
                     self.move(self.memory[0][1])
-            else:
-                self.memory.pop(0)
+
+            case 'collision':
+                x = self.memory[0][1].x
+                y = self.memory[0][1].y
+                if self.x > x:
+                    if self.y != 0:
+                        if data['CollisionMap'].tryOccupy(self.x, self.y-1):
+                            self.y -= 1
+                            self.memory.pop(0)
+                        elif self.x+1 != data['simWidth'] and data['CollisionMap'].tryOccupy(self.x+1, self.y):
+                            self.x += 1
+                elif self.x < x:
+                    if self.y+1 != data['simHeight']:
+                        if data['CollisionMap'].tryOccupy(self.x, self.y+1):
+                            self.y += 1
+                            self.memory.pop(0)
+                        elif self.x != 0 and data['CollisionMap'].tryOccupy(self.x-1, self.y):
+                            self.x -= 1
+                elif self.y > y:
+                    if self.x+1 != data['simWidth']:
+                        if data['CollisionMap'].tryOccupy(self.x+1, self.y):
+                            self.x += 1
+                            self.memory.pop(0)
+                        elif self.y+1 != data['simHeight'] and data['CollisionMap'].tryOccupy(self.x, self.y+1):
+                            self.y += 1
+                elif self.x != 0:
+                    if data['CollisionMap'].tryOccupy(self.x-1, self.y):
+                        self.x -= 1
+                        self.memory.pop(0)
+                    elif self.y != 0 and data['CollisionMap'].tryOccupy(self.x, self.y-1):
+                        self.y -= 1
+
+            case _:
+                raise Exception(f"memory's task: {self.memory[0]} not recognized")
 
     # ------------------------ brain ------------------------
     # TODO AI on IFs
@@ -135,7 +190,6 @@ class Organism(Entity):
 
         # TODO tmp value
         self.energy -= 1
-
     # ------------------------ brain ------------------------
 
     @property
@@ -204,6 +258,7 @@ class Organism(Entity):
 
     @memory.setter
     def memory(self, newValue):
+        assert isinstance(newValue,list) and (len(newValue)==0 or isinstance(newValue[0],(tuple,list))), "memory have to be a list and elements od memory have to be a tuples or lists"
         self.__memory = newValue
 
     def __repr__(self):

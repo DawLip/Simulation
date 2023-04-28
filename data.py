@@ -14,7 +14,7 @@ data = {
     'id': 0,
     'tick': 1,
 
-    'initialCellNumber': 5,
+    'initialCellNumber': 50,
     'initialFoodNumber': 100,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,

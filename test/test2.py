@@ -1,3 +1,3 @@
-from model.environment.OrganicMatter import OrganicMatter
-obj = OrganicMatter()
-print(obj)
+x=[]
+if True or x[3]:
+    print('asd')
