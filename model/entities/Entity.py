@@ -6,6 +6,7 @@ class Entity:
         self.x = x
         self.y = y
         self.img = img
+        self.name = id(self)
         Entity.all.append(self)
         
     @property
