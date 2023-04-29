@@ -9,13 +9,14 @@ data = {
     'frameRate': 0,
     'GUIframeRate': 10,
     'debugShowDelay': 1000,
-    'modelIterationDelay': 50,
+    'modelIterationDelay': 500,
 
     'id': 0,
     'tick': 1,
+    'seed': None,
 
-    'initialCellNumber': 50,
-    'initialFoodNumber': 100,
+    'initialCellNumber': 5,
+    'initialFoodNumber': 10,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 

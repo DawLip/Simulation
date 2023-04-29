@@ -1,4 +1,4 @@
-from random import randrange
+from random import randrange, seed
 
 from .entities.importEntities import Organism
 from .entities.tmp.TmpFood import TmpFood
@@ -12,6 +12,8 @@ from data import data
 
 
 def initializeData():
+    seed(data['seed'])
+    
     # data['OrganicMatter']=OrganicMatter()
     data["CollisionMap"] = CollisionMap()
     # TODO tmp init
