@@ -1,3 +1,4 @@
-x=[]
-if True or x[3]:
-    print('asd')
+import random
+
+def test2():
+    random.seed(123)

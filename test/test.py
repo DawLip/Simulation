@@ -1,19 +1,20 @@
-lang = 'PHdfgP'
+import random
+import time
 
-match lang:
-    case "JavaScript":
-        print("You can become a web developer.")
+from test2 import test2
 
-    case "Python":
-        print("You can become a Data Scientist")
+test2()
 
-    case "PHP":
-        print("You can become a backend developer")
+arr=[]
+start1=time.perf_counter_ns()
+for i in range(10000):
+    arr.append(random.randrange(100))
+stop1=time.perf_counter_ns()
+
+arr=[]
+start2=time.perf_counter_ns()
+for i in range(10000):
+    arr.append(random.randint(0,100))
+stop2=time.perf_counter_ns()
     
-    case "Solidity":
-        print("You can become a Blockchain developer")
-
-    case "Java":
-        print("You can become a mobile app developer")
-    case _:
-        print("The language doesn't matter, what matters is solving problems.")
+print(stop1-start1,stop2-start2)
