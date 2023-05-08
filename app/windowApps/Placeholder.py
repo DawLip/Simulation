@@ -1,7 +1,10 @@
 import tkinter as tk
 
-class Placeholder(tk.Frame):
-    def __init__(self, parent, **args):
-        super().__init__(parent, **args)
+from app.components.WindowApp import WindowApp
 
-        self.grid(sticky='wens')
+class Placeholder(WindowApp):
+    def __init__(self, parent, **args):
+        super().__init__(parent, padx=4, pady=4, **args)
+        
+        self.grid(sticky='nswe')
+    

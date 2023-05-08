@@ -16,7 +16,8 @@ class Simulation(WindowApp):
     def __init__(self, parent, **args):
         self.x=0
         self.y=0
-
+        self.parent=parent
+            
         super().__init__(parent, **args)
 
         self.grid(row=2, sticky='wens')
@@ -30,6 +31,12 @@ class Simulation(WindowApp):
         self.aPressed=False
         self.wPressed=False
         self.sPressed=False
+        
+        self.parent.menuOptions={
+            'left':[],
+            'mid':['Step', 'Start', 'FullSpeed'],
+            'right':[],
+        }
 
         img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "red")
         self.img = ImageTk.PhotoImage(img)
@@ -45,13 +52,15 @@ class Simulation(WindowApp):
 
     def refresh(self, **args):
         timerStart()
-
+        
+        # Moving
         const=20
         if self.dPressed:   self.x+=const*self.scale
         if self.aPressed:   self.x-=const*self.scale
         if self.wPressed:   self.y-=const*self.scale
         if self.sPressed:   self.y+=const*self.scale
 
+        # Map rendering
         img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "#ccc")
 
         for entity in Entity.all:

@@ -16,7 +16,9 @@ def model():
         
     while not data['exit']:
         time.sleep(.01)
-        while data['isSimRunning']:
+        while data['isSimRunning'] or data['isMakeStep']:
+            if data['isMakeStep']:  data['isMakeStep']=False
+            
             if not data['tick']%10:
                 TmpFood(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1))
             for organism in Organism.all:
@@ -25,4 +27,6 @@ def model():
             data['tick'] += 1
 
             debug['tickCounter']+=1
-            time.sleep(data['modelIterationDelay']/1000)
+            # time.sleep(data['modelIterationDelay']/1000)
+            if data['modelIterationDelay']>0:
+                time.sleep(data['modelIterationDelay']/1000)

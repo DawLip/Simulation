@@ -1,6 +1,7 @@
 data = {
     'exit': False,
-    'isSimRunning': True,
+    'isSimRunning': False,
+    'isMakeStep': False,
     'isModelReady': False,
 
     'simHeight': 64*2,

@@ -1,5 +1,3 @@
-import tkinter as tk
-
 from app.components.WindowApp import WindowApp
 
 from ..components.Txt import Txt

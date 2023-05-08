@@ -22,11 +22,13 @@ class Window(tk.Frame):
 
         self.tabs=tabs
         self.selectedTab=0
+        self.menuOptions={'left':[], 'mid':[], 'right':[],}
         
-        self.menu=WindowMenu(self, options=['Create'])
+        self.refresh()
+        
+        self.menu=WindowMenu(self, options=self.menuOptions)
         self.tabsBar=WindowTabs(self, tabs=tabs, command=self.changeSelectedTab)
 
-        self.refresh()
 
     def refresh(self):
         if len(self.tabs.keys())>0: 
