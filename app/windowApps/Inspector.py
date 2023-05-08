@@ -6,6 +6,8 @@ from ..components.Txt import Txt
 
 from model.entities.Entity import Entity
 
+from data import data
+
 class Inspector(WindowApp):
     def __init__(self, parent, **args):
         super().__init__(parent, padx=4, pady=4, **args)
@@ -14,6 +16,7 @@ class Inspector(WindowApp):
         self.columnconfigure(0, weight=1)
 
     def inicialize(self, **args):
+        data['selectedEntity'] = Entity.all[-1]
         self.selectedEntity = Entity.all[-1]
         self.labelList=[]
 
@@ -23,6 +26,8 @@ class Inspector(WindowApp):
     
     def refresh(self, **args):
         self.render(**args)
+        self.selectedEntity=data['selectedEntity']
+        
         return super().refresh(**args)
     
     def render(self, isInicialize=False, **args):

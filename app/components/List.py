@@ -25,8 +25,11 @@ class List(tk.Frame):
         self.icon.bind("<Button-1>", partial(self.onClick, data=data, **args))
         self.label.bind("<Button-1>", partial(self.onClick, data=data, **args))
         
-    def conf(self, text):
+    def conf(self, text, data):
         self.label.config(text=text)
+        
+        if self.isExpanded:
+            self.expandEl.conf(data)
         
     def onClick(self, e, **args):
         if self.isExpanded:     
@@ -34,6 +37,6 @@ class List(tk.Frame):
             self.expandEl.destroy()
         else:     
             self.icon.config(image=self.iconExpanded)
-            self.expandEl=SubList(self, row=1, column=0, text=f"", data=args['data'], bg=args['bg'])
+            self.expandEl=SubList(self, row=1, column=1, text=f"", data=args['data'], bg=args['bg'])
         
         self.isExpanded = not self.isExpanded

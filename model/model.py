@@ -17,7 +17,7 @@ def model():
     while not data['exit']:
         time.sleep(.01)
         while data['isSimRunning']:
-            if not data['tick']%50:
+            if not data['tick']%10:
                 TmpFood(randrange(data["simWidth"] - 1), randrange(data["simHeight"] - 1))
             for organism in Organism.all:
                 organism.brain()

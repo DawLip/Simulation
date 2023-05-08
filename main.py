@@ -1,5 +1,6 @@
 import threading
 import time
+import random
 
 from model.model import model
 from app.App import App
@@ -12,6 +13,8 @@ def appStart():
 
 
 if __name__ == "__main__":
+    random.seed(12345678)
+    
     modelT = threading.Thread(target=model)
     appT = threading.Thread(target=appStart)
     # debugT = threading.Thread(target=debug)

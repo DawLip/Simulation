@@ -4,7 +4,8 @@ from functools import partial
 
 from .Txt import Txt
 
-from data import GUI 
+from data import GUI, data
+from data import  data as d
 
 class SubList(tk.Frame):
     def __init__(self, parent, column=0, row=0, sticky='wens', text='', data=[], **args):
@@ -13,8 +14,43 @@ class SubList(tk.Frame):
         self.grid(column=column, row=row, sticky=sticky)
         self.focus_set()
         
+        self.listElements=[]
+        self.bg=args['bg']
+        
         for index, el in enumerate(data):
-            Txt(self, row=index, column=0, text=f"{el.name}", bg=args['bg'])
+            element=Txt(self, row=index, column=0, text=f"{index+1}: {el.name}", bg=self.bg)
+            element.focus_set()
+            element.bind("<Button-1>", partial(self.onClick, el=el, **args))
+            
+            self.listElements.append(element)
+        
+    def conf(self, data):
+        print('start checking --------------')
+        for index, el in enumerate(self.listElements):
+            if index >= len(data):
+                print(d['tick'],'\t destroy \t', index, [index for index, d in enumerate(data)])
+                el.destroy()
+                self.listElements.pop(index)
+            elif index < len(data):
+                print(d['tick'],'\t config \t', index, [index for index, d in enumerate(data)])
+                el.config(text=f"{index+1}: {data[index].name}")
+                
+        if len(data) > len(self.listElements):
+            for index, el in enumerate(data):
+                if index > len(self.listElements)-1:
+                    element=Txt(self, row=index, column=0, text=f"{index+1}: {el.name}", bg=self.bg)
+                    element.focus_set()
+                    element.bind("<Button-1>", partial(self.onClick, el=el))
+                    
+                    self.listElements.append(element)
+        
+    def onClick(self, e, el, **args):
+        data['selectedEntity']=el
+
+        
+        
+        
+        # __init__
         # self.iconExpanded = tk.PhotoImage(file = f"./resources/GUI/downArrow.png")
         # self.iconNotExpanded = tk.PhotoImage(file = f"./resources/GUI/arrowRight.png")
         # self.isExpanded = False
@@ -28,9 +64,3 @@ class SubList(tk.Frame):
         # for child in  self.winfo_children():
         #     child.bind("<Button-1>", partial(self.onClick, **args))
         #     child.bind("<Button-1>", partial(self.onClick, **args))
-        
-    def conf(self, text):
-        self.label.config(text=text)
-        
-    def onClick(self, e, **args):
-        print(e)
