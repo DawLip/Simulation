@@ -15,7 +15,7 @@ class Window(tk.Frame):
         )
 
         self.grid(column=column, row=row, sticky='wens', columnspan=columnspan)
-        self.grid_propagate(False)
+        # self.grid_propagate(False)
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)

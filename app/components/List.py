@@ -11,7 +11,7 @@ class List(tk.Frame):
         super().__init__(parent, **args)
 
         self.grid(column=column, row=row, sticky=sticky)
-        self.focus_set()
+        # self.focus_set()
         
         self.iconExpanded = tk.PhotoImage(file = f"./resources/GUI/downArrow.png")
         self.iconNotExpanded = tk.PhotoImage(file = f"./resources/GUI/arrowRight.png")

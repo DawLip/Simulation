@@ -12,34 +12,31 @@ class SubList(tk.Frame):
         super().__init__(parent, **args)
 
         self.grid(column=column, row=row, sticky=sticky)
-        self.focus_set()
+        # self.focus_set()
         
         self.listElements=[]
         self.bg=args['bg']
         
         for index, el in enumerate(data):
-            element=Txt(self, row=index, column=0, text=f"{index+1}: {el.name}", bg=self.bg)
-            element.focus_set()
+            element=Txt(self, row=index, column=0, text=f"{index+1}:\t{el.name}", bg=self.bg)
+            # element.focus_set()
             element.bind("<Button-1>", partial(self.onClick, el=el, **args))
             
             self.listElements.append(element)
         
     def conf(self, data):
-        print('start checking --------------')
         for index, el in enumerate(self.listElements):
             if index >= len(data):
-                print(d['tick'],'\t destroy \t', index, [index for index, d in enumerate(data)])
                 el.destroy()
                 self.listElements.pop(index)
             elif index < len(data):
-                print(d['tick'],'\t config \t', index, [index for index, d in enumerate(data)])
-                el.config(text=f"{index+1}: {data[index].name}")
+                el.config(text=f"{index+1}:\t{data[index].name}")
                 
         if len(data) > len(self.listElements):
             for index, el in enumerate(data):
                 if index > len(self.listElements)-1:
-                    element=Txt(self, row=index, column=0, text=f"{index+1}: {el.name}", bg=self.bg)
-                    element.focus_set()
+                    element=Txt(self, row=index, column=0, text=f"{index+1}:\t{el.name}", bg=self.bg)
+                    # element.focus_set()
                     element.bind("<Button-1>", partial(self.onClick, el=el))
                     
                     self.listElements.append(element)

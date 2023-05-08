@@ -7,7 +7,7 @@ data = {
     'simWidth': 128*2,
 
     'frameRate': 0,
-    'GUIframeRate': 5,
+    'GUIframeRate': 30,
     'debugShowDelay': 1000,
     'modelIterationDelay': 50,
 
