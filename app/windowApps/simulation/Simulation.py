@@ -10,6 +10,7 @@ from data import data, GUI, debug
 from debug.debug import timerStart, timerStop
 
 imgFood = Image.open("./resources/img/food.png")
+imgSelectedIndicator = Image.open("./resources/img/selectedIndicator.png")
 
 class Simulation(WindowApp):
     def __init__(self, parent, **args):
@@ -46,19 +47,19 @@ class Simulation(WindowApp):
         timerStart()
 
         const=20
-        if self.dPressed:
-            self.x+=const*self.scale
-        if self.aPressed:
-            self.x-=const*self.scale
-        if self.wPressed:
-            self.y-=const*self.scale
-        if self.sPressed:
-            self.y+=const*self.scale
+        if self.dPressed:   self.x+=const*self.scale
+        if self.aPressed:   self.x-=const*self.scale
+        if self.wPressed:   self.y-=const*self.scale
+        if self.sPressed:   self.y+=const*self.scale
 
         img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "#ccc")
 
         for entity in Entity.all:
-            img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img)      
+            img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img) 
+            
+            if data['selectedEntity'] != None and data['selectedEntity'].x == entity.x and data['selectedEntity'].y == entity.y:
+                img.paste( imgSelectedIndicator, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), imgSelectedIndicator) 
+                 
 
         img.thumbnail((math.floor(self.winfo_width()*self.scale), math.floor(self.winfo_height()*self.scale)))
         
