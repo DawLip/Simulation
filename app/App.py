@@ -10,6 +10,8 @@ from .windowApps.Entities import Entities
 from .windowApps.Inspector import Inspector
 from .windowApps.Debug import Debug
 
+from .windowApps.BottomBar import BottomBar
+
 from data import data
 
 
@@ -51,6 +53,8 @@ class App(tk.Tk):
         self.windows.append(Window(self, column=2, width=256,              tabs={'Inspector': self.windowApps['Inspector']}))
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
+        
+        self.windows.append(BottomBar(self, height=48))
 
         self.mainloop()
 
