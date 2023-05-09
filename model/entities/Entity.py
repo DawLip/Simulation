@@ -30,6 +30,7 @@ class Entity:
         return self.__img
     @img.setter
     def img(self, newValue: object):
+        # TODO remove?
         # assert newValue.__class__.__name__=='Surface', f'img must be a object like "pygame.image.load(r\'./resources/img/cell.png\')"'
         self.__img = newValue
 

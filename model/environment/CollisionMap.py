@@ -20,3 +20,5 @@ class CollisionMap(MapConstructor):
         self.map[y][x] = True
         return True
         
+    def occupy(self, x, y):
+        self.map[y][x] = True

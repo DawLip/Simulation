@@ -4,6 +4,7 @@ from data import data, debug
 
 from .Entity import Entity
 from .tmp.TmpFood import TmpFood
+from .AdditionalCell import AdditionalCell
 
 # TODO add additional attributes
 
@@ -44,13 +45,12 @@ class Organism(Entity):
         # always ('what to do', *args)
         self.memory = []
 
-        # place for additional attributes
-
         Organism.all.append(self)
-        # data["CollisionMap"].map[y][x] = True
 
     def delete(self):
         if Organism.all.count(self):
+            for additionalCell in self.additionalCells:
+                additionalCell.delete()
             Organism.all.pop(Organism.all.index(self))
             Entity.all.pop(Entity.all.index(self))
             data["CollisionMap"].freeUpPosition(self.x, self.y)
@@ -72,15 +72,84 @@ class Organism(Entity):
                 minDistance = distance
                 nearestFood = food
         return nearestFood
+    
+    def addAdditionalCell(self):
+        additionalCellsPosition=[(additionalCell.relativeX, additionalCell.relativeY) for additionalCell in self.additionalCells]
+        
+        scope = 1
+        scope2 = 1
+        i = 2
+        numOfCells = len(self.additionalCells) + 1
+        while (scope+i)**2 < numOfCells:
+            i += 1
+            scope += 1
 
-    def move(self, nearestFood):
+        x = scope
+        y = 0
+        isLookingForSpace = True
+        isNotCross = True
+        vertical = True
+        while isLookingForSpace:
+            if not (x, y) in additionalCellsPosition:
+                isLookingForSpace = False
+            elif isNotCross:
+                if y==0:
+                    if x > 0:
+                        x = scope * -1
+                    else:
+                        x = 0
+                        y = scope
+                else:
+                    if y > 0:
+                        y = scope * -1
+                    else:
+                        isNotCross = False
+                        x = scope2
+                        y = scope
+            # else:
+            #     if vertical:
+            #         if y > 0:
+            #             if x > 0:
+            #                 x = scope2 * -1
+            #             else:
+            #                 x = scope2
+            #                 y = scope * -1
+            #         else:
+            #             if x > 0:
+            #                 x = scope2 * -1
+            #             else:
+            #                 vertical = False
+            #                 x = scope
+            #                 y = scope2
+            #     else:
+            #         if x > 0:
+            #             if y > 0:
+            #                 y = scope2 * -1
+            #             else:
+            #                 x = scope * -1
+            #                 y = scope2
+            #         else:
+            #             pass
+
+        if data['CollisionMap'].tryOccupy(x,y):
+            # TODO tmp value
+            self.cooldown = 5
+            # TODO tmp value
+            self.buildingPoints -= 10
+            # TODO tmp additionType
+            self.additionalCells.append(AdditionalCell(x + self.x, y + self.y, self, None))
+        else:
+            # TODO tmp additionType
+            self.memory.insert(0, ('addAdditionalCell', (x + self.x, y + self.y, None)))
+
+    def move(self, nearestFood, x = None, y = None):
         if self.energy > 1:
             # TODO tmp value
             self.energy -= 1
             # TODO tmp value
             self.cooldown = 1
-            nearestFoodX = nearestFood.x - self.x
-            nearestFoodY = nearestFood.y - self.y
+            nearestFoodX = nearestFood.x - self.x if nearestFood != None else x
+            nearestFoodY = nearestFood.y - self.y if nearestFood != None else y
             wantToGo = [self.x, self.y]
             if abs(nearestFoodX) > abs(nearestFoodY):
                 if nearestFoodX > 0:
@@ -92,15 +161,43 @@ class Organism(Entity):
                     wantToGo[1] += 1
                 else:
                     wantToGo[1] -= 1
-            if data['CollisionMap'].tryOccupy(wantToGo[0], wantToGo[1]):
-                data['CollisionMap'].freeUpPosition(self.x, self.y) 
+
+            isCollision = False
+            data['CollisionMap'].freeUpPosition(self.x, self.y)
+            for cell in self.additionalCells:
+                data['CollisionMap'].freeUpPosition(cell.x, cell.y)
+
+            if data['CollisionMap'].isOccupied(wantToGo[0], wantToGo[1]):
+                isCollision = True
+            else:
+                for cell in self.additionalCells:
+                    if data['CollisionMap'].isOccupied(cell.relativeX + wantToGo[0], cell.relativeY + wantToGo[1]):
+                        isCollision = True
+                        break
+
+            if isCollision:
+                data['CollisionMap'].occupy(self.x, self.y)
+                for cell in self.additionalCells:
+                    data['CollisionMap'].occupy(cell.x, cell.y)
+                if nearestFood != None:
+                    self.memory.insert(0, ('waitCollision', nearestFood))
+                else:
+                    self.memory.insert(0, ('waitCollision', None, nearestFoodX, nearestFoodY))
+
+            else:
+                for cell in self.additionalCells:
+                    newX = wantToGo[0] + cell.relativeX
+                    newY = wantToGo[1] + cell.relativeY
+                    data['CollisionMap'].occupy(newX, newY)
+                    cell.x = newX
+                    cell.y = newY
+                                                
+                data['CollisionMap'].occupy(wantToGo[0], wantToGo[1]) 
                 self.x = wantToGo[0]
                 self.y = wantToGo[1]
                 if self.memory[0][0] == 'waitCollision':
                     self.memory.pop(0)
-
-            else:
-                self.memory.insert(0, ('waitCollision', nearestFood))
+                
         else:
             self.delete()
 
@@ -165,6 +262,24 @@ class Organism(Entity):
                     elif self.y != 0 and data['CollisionMap'].tryOccupy(self.x, self.y-1):
                         self.y -= 1
 
+            case 'addAdditionalCell':
+                x = self.memory[0][1][0]
+                y = self.memory[0][1][1]
+                if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight'] and data['CollisionMap'].tryOccupy(x, y):
+                    # TODO tmp value
+                    self.cooldown = 5
+                    # TODO tmp value
+                    self.buildingPoints -= 10
+                    #                                                      additionType 
+                    self.additionalCells.append(AdditionalCell(x, y, self, self.memory[0][1][2]))
+                    self.memory.pop(0)
+                else:
+                    x = self.x*2 - self.memory[0][1][0]
+                    y = self.y*2 - self.memory[0][1][1]
+                    # !!!only more (or less) not more or equal!!!
+                    if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight']:
+                        self.move(None, x, y)
+
             case _:
                 raise Exception(f"memory's task: {self.memory[0]} not recognized")
 
@@ -179,6 +294,9 @@ class Organism(Entity):
                 if nearestFood != None:
                     if nearestFood.x == self.x and nearestFood.y == self.y:
                         self.eat(nearestFood)
+                    # TODO tmp value, remove after "and"
+                    elif self.buildingPoints>=10 and len(self.additionalCells)<4:
+                        self.addAdditionalCell()
                     # TODO tmp value
                     elif self.energy - self.divisionCost > 200:
                         self.division()
@@ -228,8 +346,7 @@ class Organism(Entity):
 
     @parent.setter
     def parent(self, newValue: object):
-        assert isinstance(newValue, (object, None)
-                          ), "parent must be an object or None"
+        assert isinstance(newValue, (object, None)), "parent must be an object or None"
         self.__parent = newValue
 
     @property
