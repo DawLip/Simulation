@@ -10,6 +10,8 @@ class WindowApp(tk.Frame):
 
         self.grid_propagate(False)
         self.grid(column=0, row=2, sticky='wens')
+        
+        self.bind("<Button-1>", self.setFocus)
 
         self.inicialize(**args)
         self.refresh(**args)
@@ -19,3 +21,6 @@ class WindowApp(tk.Frame):
 
     def refresh(self, frameRate=data['GUIframeRate'], **args):
         self.after(int(1000/frameRate), partial(self.refresh, **args))
+        
+    def setFocus(self, e):
+        self.focus_set()

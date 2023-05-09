@@ -24,6 +24,4 @@ class Debug(WindowApp):
             i+=1
 
         return super().refresh(**args)
-    
-    
         

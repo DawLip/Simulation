@@ -45,8 +45,10 @@ class Simulation(WindowApp):
         self.imgContainer.grid(column=0, row=0)
 
         self.imgContainer.bind('<MouseWheel>', self.onScroll)
-        self.imgContainer.bind_all('<KeyPress>', self.onKeyPress)
-        self.imgContainer.bind_all('<KeyRelease>', self.onKeyRelease)
+        self.imgContainer.bind('<KeyPress>', self.onKeyPress)
+        self.imgContainer.bind('<KeyRelease>', self.onKeyRelease)
+        
+        self.imgContainer.bind("<Button-1>", self.setFocus)
 
         return super().inicialize()
 
@@ -89,6 +91,7 @@ class Simulation(WindowApp):
         self.scale = self.scale - self.scale*.1*e.delta/120*-1
 
     def onKeyPress(self, e):
+        print(e)
         if e.char=='d':
             self.dPressed=True
         elif e.char=='a':
@@ -107,6 +110,9 @@ class Simulation(WindowApp):
             self.wPressed=False
         elif e.char=='s':
             self.sPressed=False
+            
+    def setFocus(self, e):
+        self.imgContainer.focus_set()
     
     
     # def refresh(self):
