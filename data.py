@@ -38,6 +38,7 @@ GUI = {
     'windowHeight': 1080-64,
 
     'windowTitle': "Simulation",
+    'windows': [],
     'sprites': [],
     'texturesSize': 8,
     'textures':{},

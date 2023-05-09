@@ -12,7 +12,7 @@ from .windowApps.Debug import Debug
 
 from .windowApps.BottomBar import BottomBar
 
-from data import data
+from data import data, GUI
 
 
 class App(tk.Tk):
@@ -56,6 +56,8 @@ class App(tk.Tk):
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
         
         self.windows.append(BottomBar(self, height=48))
+        
+        GUI['windows']=self.windows
 
         self.mainloop()
 

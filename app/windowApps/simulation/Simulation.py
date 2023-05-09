@@ -35,7 +35,7 @@ class Simulation(WindowApp):
         self.parent.menuOptions={
             'left':[],
             'mid':['Restart', 'Step', 'Start','IncreaseSpeed', 'DecreaseSpeed'],
-            'right':[],
+            'right':['Maximize'],
         }
 
         img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "red")
@@ -91,7 +91,6 @@ class Simulation(WindowApp):
         self.scale = self.scale - self.scale*.1*e.delta/120*-1
 
     def onKeyPress(self, e):
-        print(e)
         if e.char=='d':
             self.dPressed=True
         elif e.char=='a':
