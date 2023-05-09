@@ -13,7 +13,7 @@ def appStart():
 
 
 if __name__ == "__main__":
-    random.seed(12345678)
+    random.seed(data['seed'])
     
     modelT = threading.Thread(target=model)
     appT = threading.Thread(target=appStart)

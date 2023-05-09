@@ -23,7 +23,7 @@ class BottomBar(tk.Frame):
         self.tickCounter = Txt(self.leftMenu, text=debug['tickCounter'], column=1, bg=bg)
         
         Txt(self.leftMenu, text='\tModelIterationDelay:', column=2, bg=bg)
-        self.modelIterationDelay = Input(self.leftMenu, text=data['modelIterationDelay'], column=3, bg=bg)
+        self.modelIterationDelay = Txt(self.leftMenu, text=data['modelIterationDelay'], column=3, bg=bg)
         
         Txt(self.leftMenu, text='\tSeed:', column=4, bg=bg)
         self.seed = Input(self.leftMenu, text=data['seed'], column=5, bg=bg)
@@ -33,8 +33,9 @@ class BottomBar(tk.Frame):
     def refresh(self):
         self.tickCounter.config(text=debug['tickCounter'])
         
-        self.modelIterationDelay.delete(0,"end")
-        self.modelIterationDelay.insert(0, str(data['modelIterationDelay']))
+        self.modelIterationDelay.config(text=data['modelIterationDelay'])
+        
+        data['seed']=self.seed.get()
         
         self.after(int(1000/data['GUIframeRate']), self.refresh)
         

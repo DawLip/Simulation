@@ -24,7 +24,7 @@ def model():
                 while len(Entity.all)>0:
                     Entity.all[0].delete()
                     
-                random.seed(12345678)
+                random.seed(data['seed'])
                 debug['tickCounter']=1
                 data['isSimRestart']=False
                 
