@@ -15,18 +15,20 @@ class Window(tk.Frame):
         )
 
         self.grid(column=column, row=row, sticky='wens', columnspan=columnspan)
-        self.grid_propagate(False)
+        # self.grid_propagate(False)
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)
 
         self.tabs=tabs
         self.selectedTab=0
+        self.menuOptions={'left':[], 'mid':[], 'right':[],}
         
-        self.menu=WindowMenu(self, options=['Create'])
+        self.refresh()
+        
+        self.menu=WindowMenu(self, options=self.menuOptions)
         self.tabsBar=WindowTabs(self, tabs=tabs, command=self.changeSelectedTab)
 
-        self.refresh()
 
     def refresh(self):
         if len(self.tabs.keys())>0: 

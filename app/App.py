@@ -10,7 +10,9 @@ from .windowApps.Entities import Entities
 from .windowApps.Inspector import Inspector
 from .windowApps.Debug import Debug
 
-from data import data
+from .windowApps.BottomBar import BottomBar
+
+from data import data, GUI
 
 
 class App(tk.Tk):
@@ -22,10 +24,11 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.width=1920
-        self.height=1080-66
+        self.width=self.winfo_screenwidth()
+        self.height=self.winfo_screenheight()
 
-        self.geometry(f"{self.width}x{self.height}+-10+0")
+        self.geometry(f"{self.width}x{self.height}+0+0")
+        self.state("zoomed")
         self.title("SimApp")
 
         self.protocol("WM_DELETE_WINDOW", self.onExit)
@@ -51,6 +54,10 @@ class App(tk.Tk):
         self.windows.append(Window(self, column=2, width=256,              tabs={'Inspector': self.windowApps['Inspector']}))
 
         self.windows.append(Window(self, row=2, column=0, columnspan=3, height=256, tabs={'Placeholder': self.windowApps['Placeholder']}))
+        
+        self.windows.append(BottomBar(self, height=48))
+        
+        GUI['windows']=self.windows
 
         self.mainloop()
 
@@ -80,3 +87,5 @@ class App(tk.Tk):
         help_menu.add_command(label='About...')
 
         self.menuBar.add_cascade(label="Help", menu=help_menu)
+        
+

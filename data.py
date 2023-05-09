@@ -1,22 +1,24 @@
 data = {
     'exit': False,
-    'isSimRunning': True,
+    'isSimRunning': False,
+    'isMakeStep': False,
     'isModelReady': False,
+    'isSimRestart': False,
 
     'simHeight': 64*2,
     'simWidth': 128*2,
 
     'frameRate': 0,
-    'GUIframeRate': 10,
+    'GUIframeRate': 30,
     'debugShowDelay': 1000,
     'modelIterationDelay': 50,
 
     'id': 0,
     'tick': 1,
-    'seed': None,
+    'seed': '7628712',
 
-    'initialCellNumber': 50,
-    'initialFoodNumber': 100,
+    'initialCellNumber': 10,
+    'initialFoodNumber': 300,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 
@@ -24,7 +26,9 @@ data = {
     'CollisionMap': object(),
 
     'IsKeyPressedEvent': False,
-    'keyPressed': None
+    'keyPressed': None,
+    
+    'selectedEntity': None
 }
 
 environment = {}
@@ -34,6 +38,7 @@ GUI = {
     'windowHeight': 1080-64,
 
     'windowTitle': "Simulation",
+    'windows': [],
     'sprites': [],
     'texturesSize': 8,
     'textures':{},

@@ -10,12 +10,14 @@ from data import data, GUI, debug
 from debug.debug import timerStart, timerStop
 
 imgFood = Image.open("./resources/img/food.png")
+imgSelectedIndicator = Image.open("./resources/img/selectedIndicator.png")
 
 class Simulation(WindowApp):
     def __init__(self, parent, **args):
         self.x=0
         self.y=0
-
+        self.parent=parent
+            
         super().__init__(parent, **args)
 
         self.grid(row=2, sticky='wens')
@@ -29,6 +31,12 @@ class Simulation(WindowApp):
         self.aPressed=False
         self.wPressed=False
         self.sPressed=False
+        
+        self.parent.menuOptions={
+            'left':[],
+            'mid':['Restart', 'Step', 'Start','IncreaseSpeed', 'DecreaseSpeed'],
+            'right':['Maximize'],
+        }
 
         img = Image.new( 'RGBA', (self.winfo_width(), self.winfo_height()), "red")
         self.img = ImageTk.PhotoImage(img)
@@ -37,28 +45,32 @@ class Simulation(WindowApp):
         self.imgContainer.grid(column=0, row=0)
 
         self.imgContainer.bind('<MouseWheel>', self.onScroll)
-        self.imgContainer.bind_all('<KeyPress>', self.onKeyPress)
-        self.imgContainer.bind_all('<KeyRelease>', self.onKeyRelease)
+        self.imgContainer.bind('<KeyPress>', self.onKeyPress)
+        self.imgContainer.bind('<KeyRelease>', self.onKeyRelease)
+        
+        self.imgContainer.bind("<Button-1>", self.setFocus)
 
         return super().inicialize()
 
     def refresh(self, **args):
         timerStart()
-
+        
+        # Moving
         const=20
-        if self.dPressed:
-            self.x+=const*self.scale
-        if self.aPressed:
-            self.x-=const*self.scale
-        if self.wPressed:
-            self.y-=const*self.scale
-        if self.sPressed:
-            self.y+=const*self.scale
+        if self.dPressed:   self.x+=const*self.scale
+        if self.aPressed:   self.x-=const*self.scale
+        if self.wPressed:   self.y-=const*self.scale
+        if self.sPressed:   self.y+=const*self.scale
 
+        # Map rendering
         img = Image.new( 'RGBA', (data['simWidth']*GUI['texturesSize'], data['simHeight']*GUI['texturesSize']), "#ccc")
 
         for entity in Entity.all:
-            img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img)      
+            img.paste( entity.img, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), entity.img) 
+            
+            if data['selectedEntity'] != None and data['selectedEntity'].x == entity.x and data['selectedEntity'].y == entity.y:
+                img.paste( imgSelectedIndicator, (entity.x*GUI['texturesSize'], entity.y*GUI['texturesSize']), imgSelectedIndicator) 
+                 
 
         img.thumbnail((math.floor(self.winfo_width()*self.scale), math.floor(self.winfo_height()*self.scale)))
         
@@ -97,6 +109,9 @@ class Simulation(WindowApp):
             self.wPressed=False
         elif e.char=='s':
             self.sPressed=False
+            
+    def setFocus(self, e):
+        self.imgContainer.focus_set()
     
     
     # def refresh(self):
