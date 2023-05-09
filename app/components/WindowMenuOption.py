@@ -3,7 +3,6 @@ from PIL import Image
 
 from data import GUI, data
 
-
 class WindowMenuOption(tk.Button):
     def __init__(self, parent, column=0, row=0, **args):
         self.parent=parent
@@ -42,3 +41,6 @@ class WindowMenuOption(tk.Button):
         
     def commandFullSpeed(self):
         data['modelIterationDelay']=1
+        
+    def commandTick(self):
+        pass

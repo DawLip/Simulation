@@ -14,6 +14,7 @@ data = {
 
     'id': 0,
     'tick': 1,
+    'seed': 'qwerty',
 
     'initialCellNumber': 10,
     'initialFoodNumber': 300,

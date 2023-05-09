@@ -24,10 +24,11 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.width=1920
-        self.height=1080-66
+        self.width=self.winfo_screenwidth()
+        self.height=self.winfo_screenheight()
 
-        self.geometry(f"{self.width}x{self.height}+-10+0")
+        self.geometry(f"{self.width}x{self.height}+0+0")
+        self.state("zoomed")
         self.title("SimApp")
 
         self.protocol("WM_DELETE_WINDOW", self.onExit)
