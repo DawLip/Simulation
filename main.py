@@ -30,10 +30,16 @@ if __name__ == "__main__":
     modelT.join()
 
 
-# Simulation 0.2
+# Simulation 0.3
 # GUI:
-#   - graphical update
+#   - add selected Entity indicator
+#   - add simulation control buttons
+#   - add BottomBar
+#   - add seed menagment
+#   - bug fix focus
+#   - change window Entities listing
 # model:
-#   - add "name" property for Entity
-#   - add memory for Organism 
-#   - finish handling collisions
+#  add AdditionalCell
+#   - now Organisms can add AdditionalCells (cross only)
+#   - tmp: Organisms prioritize adding AdditionalCells
+#   - Collisions is working for AdditionalCells, but Organisms can stuck
