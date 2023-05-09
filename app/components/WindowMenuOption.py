@@ -1,5 +1,9 @@
 import tkinter as tk
-from PIL import Image
+import random
+
+from model.initializeData import initializeData
+
+from model.entities.Entity import Entity
 
 from data import GUI, data
 
@@ -10,7 +14,9 @@ class WindowMenuOption(tk.Button):
             'Step': tk.PhotoImage(file = "./resources/GUI/simStep.png"),
             'Start': tk.PhotoImage(file = "./resources/GUI/simStart.png"),
             'Pause': tk.PhotoImage(file = "./resources/GUI/simPause.png"),
-            'FullSpeed': tk.PhotoImage(file = "./resources/GUI/simFullSpeed.png"),
+            'DecreaseSpeed': tk.PhotoImage(file = "./resources/GUI/simDecreaseSpeed.png"),
+            'IncreaseSpeed': tk.PhotoImage(file = "./resources/GUI/simIncreaseSpeed.png"),
+            'Restart': tk.PhotoImage(file = "./resources/GUI/simRestart.png"),
         }
         
         if args['text'] in self.imgs:   img=self.imgs[args['text']]
@@ -39,8 +45,15 @@ class WindowMenuOption(tk.Button):
         if data['isSimRunning']:    self.config(image=self.imgs['Pause'])
         else:                       self.config(image=self.imgs['Start'])
         
-    def commandFullSpeed(self):
-        data['modelIterationDelay']=1
+    def commandDecreaseSpeed(self):
+        if not data['modelIterationDelay']<=20:
+            data['modelIterationDelay']-=10
+        
+    def commandIncreaseSpeed(self):
+        data['modelIterationDelay']+=10
         
     def commandTick(self):
         pass
+    
+    def commandRestart(self):
+        data['isSimRestart']=True

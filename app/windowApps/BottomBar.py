@@ -26,14 +26,15 @@ class BottomBar(tk.Frame):
         self.modelIterationDelay = Input(self.leftMenu, text=data['modelIterationDelay'], column=3, bg=bg)
         
         Txt(self.leftMenu, text='\tSeed:', column=4, bg=bg)
-        self.modelIterationDelay = Input(self.leftMenu, text=data['seed'], column=5, bg=bg)
+        self.seed = Input(self.leftMenu, text=data['seed'], column=5, bg=bg)
         
         self.refresh()
         
     def refresh(self):
         self.tickCounter.config(text=debug['tickCounter'])
         
-        
+        self.modelIterationDelay.delete(0,"end")
+        self.modelIterationDelay.insert(0, str(data['modelIterationDelay']))
         
         self.after(int(1000/data['GUIframeRate']), self.refresh)
         

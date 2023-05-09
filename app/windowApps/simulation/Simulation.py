@@ -34,7 +34,7 @@ class Simulation(WindowApp):
         
         self.parent.menuOptions={
             'left':[],
-            'mid':['Step', 'Start', 'FullSpeed'],
+            'mid':['Restart', 'Step', 'Start','IncreaseSpeed', 'DecreaseSpeed'],
             'right':[],
         }
 

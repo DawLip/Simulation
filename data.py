@@ -3,6 +3,7 @@ data = {
     'isSimRunning': False,
     'isMakeStep': False,
     'isModelReady': False,
+    'isSimRestart': False,
 
     'simHeight': 64*2,
     'simWidth': 128*2,
