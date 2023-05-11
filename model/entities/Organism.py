@@ -51,8 +51,8 @@ class Organism(Entity):
         if Organism.all.count(self):
             for additionalCell in self.additionalCells:
                 additionalCell.delete()
-            Organism.all.pop(Organism.all.index(self))
-            Entity.all.pop(Entity.all.index(self))
+            Organism.all.remove(self)
+            Entity.all.remove(self)
             data["CollisionMap"].freeUpPosition(self.x, self.y)
 
     def eat(self, nearestFood):
@@ -150,6 +150,7 @@ class Organism(Entity):
             self.cooldown = 1
             nearestFoodX = nearestFood.x - self.x if nearestFood != None else x
             nearestFoodY = nearestFood.y - self.y if nearestFood != None else y
+            # check for collision
             wantToGo = [self.x, self.y]
             if abs(nearestFoodX) > abs(nearestFoodY):
                 if nearestFoodX > 0:
@@ -174,7 +175,7 @@ class Organism(Entity):
                     if data['CollisionMap'].isOccupied(cell.relativeX + wantToGo[0], cell.relativeY + wantToGo[1]):
                         isCollision = True
                         break
-
+            # check for collision
             if isCollision:
                 data['CollisionMap'].occupy(self.x, self.y)
                 for cell in self.additionalCells:
@@ -226,7 +227,8 @@ class Organism(Entity):
 
             case 'waitCollision':
                 if len(self.memory)>1 and self.memory[1][0] == 'waitCollision':
-                    self.memory.pop(0)
+                    while self.memory[0][0]=='waitCollision':
+                        self.memory.pop(0)
                     self.memory.insert(0, ('collision', self.memory.pop(0)[1]))
                 else:
                     self.move(self.memory[0][1])
@@ -242,18 +244,18 @@ class Organism(Entity):
                         elif self.x+1 != data['simWidth'] and data['CollisionMap'].tryOccupy(self.x+1, self.y):
                             self.x += 1
                 elif self.x < x:
-                    if self.y+1 != data['simHeight']:
+                    if self.y+1 < data['simHeight']:
                         if data['CollisionMap'].tryOccupy(self.x, self.y+1):
                             self.y += 1
                             self.memory.pop(0)
                         elif self.x != 0 and data['CollisionMap'].tryOccupy(self.x-1, self.y):
                             self.x -= 1
                 elif self.y > y:
-                    if self.x+1 != data['simWidth']:
+                    if self.x+1 < data['simWidth']:
                         if data['CollisionMap'].tryOccupy(self.x+1, self.y):
                             self.x += 1
                             self.memory.pop(0)
-                        elif self.y+1 != data['simHeight'] and data['CollisionMap'].tryOccupy(self.x, self.y+1):
+                        elif self.y+1 < data['simHeight'] and data['CollisionMap'].tryOccupy(self.x, self.y+1):
                             self.y += 1
                 elif self.x != 0:
                     if data['CollisionMap'].tryOccupy(self.x-1, self.y):

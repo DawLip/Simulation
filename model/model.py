@@ -33,7 +33,9 @@ def model():
             
             if not data['tick']%10:
                 TmpFood(randrange(1, data["simWidth"] - 1), randrange(1, data["simHeight"] - 1))
-            for organism in Organism.all:
+            for index, organism in enumerate(Organism.all):
+                if index == 7:
+                    print(organism.memory)
                 organism.brain()
                 
             data['tick'] += 1
