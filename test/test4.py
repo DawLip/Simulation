@@ -1,8 +1,4 @@
-import random
+l=[1,2,3]
+l2=[1,*l]
 
-for _ in range(1_000_000):
-    if random.randrange(1):
-        print('xd')
-        break
-
-print('end')
+print(l2)

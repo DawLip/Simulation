@@ -138,67 +138,71 @@ class Organism(Entity):
             self.buildingPoints -= 10
             # TODO tmp additionType
             self.additionalCells.append(AdditionalCell(x + self.x, y + self.y, self, None))
-        else:
-            # TODO tmp additionType
-            self.memory.insert(0, ('addAdditionalCell', (x + self.x, y + self.y, None)))
+        # else:
+        #     # TODO tmp additionType
+        #     self.memory.insert(0, ('addAdditionalCell', (x + self.x, y + self.y, None)))
+            
+    def physicalMove(self, wantToGoX: int, wantToGoY: int):
+        self.x = wantToGoX
+        self.x = wantToGoY
+        for cell in self.additionalCells:
+            cell.x = wantToGoX + cell.relativeX
+            cell.y = wantToGoY + cell.relativeY
+    
+    def logicalMove(self, wantToGoX: int, wantToGoY: int) -> bool:
+        if wantToGoX < 0 or wantToGoY < 0 or wantToGoX > data['simWidth'] or wantToGoY > data['simHeight']:   
+            return False
+        for cell in self.additionalCells:
+            if wantToGoX+cell.relativeX < 0 or wantToGoY+cell.relativeY < 0 or wantToGoX+cell.relativeX > data['simWidth'] or wantToGoY+cell.relativeY > data['simHeight']:   
+                return False
+            
+        data['CollisionMap'].freeUpPosition(self.x, self.y)
+        for cell in self.additionalCells:
+            data['CollisionMap'].freeUpPosition(cell.x, cell.y)
 
-    def move(self, nearestFood, x = None, y = None):
+        isCollision = False
+        if data['CollisionMap'].isOccupied(wantToGoX, wantToGoY):
+            isCollision = True
+        else:
+            for cell in self.additionalCells:
+                if data['CollisionMap'].isOccupied(cell.relativeX + wantToGoX, cell.relativeY + wantToGoY):
+                    isCollision = True
+                    break
+                
+        if isCollision:
+            data['CollisionMap'].occupy(self.x, self.y)
+            for cell in self.additionalCells:
+                data['CollisionMap'].occupy(cell.x, cell.y)
+            return False
+        else:
+            data['CollisionMap'].occupy(wantToGoX, wantToGoY)
+            for cell in self.additionalCells:
+                data['CollisionMap'].occupy(cell.relativeX + wantToGoX, cell.relativeY + wantToGoY)
+            return True
+                
+    def move(self, x: int, y: int):
         if self.energy > 1:
             # TODO tmp value
             self.energy -= 1
             # TODO tmp value
             self.cooldown = 1
-            nearestFoodX = nearestFood.x - self.x if nearestFood != None else x
-            nearestFoodY = nearestFood.y - self.y if nearestFood != None else y
-            # check for collision
-            wantToGo = [self.x, self.y]
-            if abs(nearestFoodX) > abs(nearestFoodY):
-                if nearestFoodX > 0:
-                    wantToGo[0] += 1
-                else:
-                    wantToGo[0] -= 1
+            
+            distanceX = x - self.x
+            distanceY = y - self.y
+            wantToGoX = self.x
+            wantToGoY = self.y
+            if abs(distanceX) > abs(distanceY):
+                if x > 0: wantToGoX += 1
+                else:     wantToGoX -= 1
             else:
-                if nearestFoodY > 0:
-                    wantToGo[1] += 1
-                else:
-                    wantToGo[1] -= 1
+                if y > 0: wantToGoY += 1
+                else:     wantToGoY -= 1
 
-            isCollision = False
-            data['CollisionMap'].freeUpPosition(self.x, self.y)
-            for cell in self.additionalCells:
-                data['CollisionMap'].freeUpPosition(cell.x, cell.y)
-
-            if data['CollisionMap'].isOccupied(wantToGo[0], wantToGo[1]):
-                isCollision = True
+            if self.logicalMove(wantToGoX, wantToGoY):
+                self.physicalMove(wantToGoX, wantToGoY)
             else:
-                for cell in self.additionalCells:
-                    if data['CollisionMap'].isOccupied(cell.relativeX + wantToGo[0], cell.relativeY + wantToGo[1]):
-                        isCollision = True
-                        break
-            # check for collision
-            if isCollision:
-                data['CollisionMap'].occupy(self.x, self.y)
-                for cell in self.additionalCells:
-                    data['CollisionMap'].occupy(cell.x, cell.y)
-                if nearestFood != None:
-                    self.memory.insert(0, ('waitCollision', nearestFood))
-                else:
-                    self.memory.insert(0, ('waitCollision', None, nearestFoodX, nearestFoodY))
-
-            else:
-                for cell in self.additionalCells:
-                    newX = wantToGo[0] + cell.relativeX
-                    newY = wantToGo[1] + cell.relativeY
-                    data['CollisionMap'].occupy(newX, newY)
-                    cell.x = newX
-                    cell.y = newY
-                                                
-                data['CollisionMap'].occupy(wantToGo[0], wantToGo[1]) 
-                self.x = wantToGo[0]
-                self.y = wantToGo[1]
-                if self.memory[0][0] == 'waitCollision':
-                    self.memory.pop(0)
-                
+                self.memory.insert(0, ('waitCollision', (wantToGoX, wantToGoY)))
+                 
         else:
             self.delete()
 
@@ -213,74 +217,88 @@ class Organism(Entity):
         self.children.append(Organism(newX, self.y, self.divisionCost, 0, 20, self))
 
     def memoryHandler(self):
-        match self.memory[0][0]:
+        task = self.memory[0]
+        match task[0]:
             case 'goToFood':
                 # TODO tmp solution
-                if self.memory[0][1].isExist:
-                    if self.memory[0][1].x == self.x and self.memory[0][1].y == self.y:
-                        self.eat(self.memory[0][1])
+                if task[1].isExist:
+                    if task[1].x == self.x and task[1].y == self.y:
+                        self.eat(task[1])
                         self.memory.pop(0)
                     else:
-                        self.move(self.memory[0][1])
+                        self.move(task[1].x, task[1].y)
                 else:
                     self.memory.pop(0)
 
             case 'waitCollision':
-                if len(self.memory)>1 and self.memory[1][0] == 'waitCollision':
-                    while self.memory[0][0]=='waitCollision':
-                        self.memory.pop(0)
-                    self.memory.insert(0, ('collision', self.memory.pop(0)[1]))
+                self.memory.pop(0)
+                wantToGoX = task[1][0]
+                wantToGoY = task[1][1]
+                if self.logicalMove(wantToGoX, wantToGoY):
+                    self.physicalMove(wantToGoX, wantToGoY)
                 else:
-                    self.move(self.memory[0][1])
+                    self.memory.insert(0, ('collision', (wantToGoX, wantToGoY)))           
 
             case 'collision':
-                x = self.memory[0][1].x
-                y = self.memory[0][1].y
-                if self.x > x:
-                    if self.y != 0:
-                        if data['CollisionMap'].tryOccupy(self.x, self.y-1):
-                            self.y -= 1
-                            self.memory.pop(0)
-                        elif self.x+1 != data['simWidth'] and data['CollisionMap'].tryOccupy(self.x+1, self.y):
-                            self.x += 1
-                elif self.x < x:
-                    if self.y+1 < data['simHeight']:
-                        if data['CollisionMap'].tryOccupy(self.x, self.y+1):
-                            self.y += 1
-                            self.memory.pop(0)
-                        elif self.x != 0 and data['CollisionMap'].tryOccupy(self.x-1, self.y):
-                            self.x -= 1
-                elif self.y > y:
-                    if self.x+1 < data['simWidth']:
-                        if data['CollisionMap'].tryOccupy(self.x+1, self.y):
-                            self.x += 1
-                            self.memory.pop(0)
-                        elif self.y+1 < data['simHeight'] and data['CollisionMap'].tryOccupy(self.x, self.y+1):
-                            self.y += 1
-                elif self.x != 0:
-                    if data['CollisionMap'].tryOccupy(self.x-1, self.y):
-                        self.x -= 1
+                wantToGoX = task[1][0]
+                wantToGoY = task[1][1]
+                if self.x > wantToGoX:
+                    if self.logicalMove(wantToGoX, wantToGoY-1):
+                        self.physicalMove(wantToGoX, wantToGoY-1)
                         self.memory.pop(0)
-                    elif self.y != 0 and data['CollisionMap'].tryOccupy(self.x, self.y-1):
-                        self.y -= 1
-
-            case 'addAdditionalCell':
-                x = self.memory[0][1][0]
-                y = self.memory[0][1][1]
-                if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight'] and data['CollisionMap'].tryOccupy(x, y):
-                    # TODO tmp value
-                    self.cooldown = 5
-                    # TODO tmp value
-                    self.buildingPoints -= 10
-                    #                                                      additionType 
-                    self.additionalCells.append(AdditionalCell(x, y, self, self.memory[0][1][2]))
-                    self.memory.pop(0)
+                    else: 
+                        if min([self.y, *[cell.y for cell in self.additionalCells]]):
+                            if self.logicalMove(wantToGoX+1, wantToGoY):
+                                self.physicalMove(wantToGoX+1, wantToGoY)
+                        else: self.memory.pop(0)
+                        
+                elif self.x < wantToGoX:
+                    if self.logicalMove(wantToGoX, wantToGoY+1):
+                        self.physicalMove(wantToGoX, wantToGoY+1)
+                        self.memory.pop(0)
+                    else: 
+                        if max([self.y, *[cell.y for cell in self.additionalCells]]) != data['simHeight']:
+                            if self.logicalMove(wantToGoX-1, wantToGoY):
+                                self.physicalMove(wantToGoX-1, wantToGoY)
+                        else: self.memory.pop(0)
+                        
+                elif self.y > wantToGoY:
+                    if self.logicalMove(wantToGoX+1, wantToGoY):
+                        self.physicalMove(wantToGoX+1, wantToGoY)
+                        self.memory.pop(0)
+                    else: 
+                        if min([self.x, *[cell.x for cell in self.additionalCells]]):
+                            if self.logicalMove(wantToGoX, wantToGoY+1):
+                                self.physicalMove(wantToGoX, wantToGoY+1)
+                        else: self.memory.pop(0)
+                         
                 else:
-                    x = self.x*2 - self.memory[0][1][0]
-                    y = self.y*2 - self.memory[0][1][1]
-                    # !!!only more (or less) not more or equal!!!
-                    if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight']:
-                        self.move(None, x, y)
+                    if self.logicalMove(wantToGoX-1, wantToGoY):
+                        self.physicalMove(wantToGoX-1, wantToGoY)
+                        self.memory.pop(0)
+                    else: 
+                        if max([self.x, *[cell.x for cell in self.additionalCells]]) != data['simWidth']:
+                            if self.logicalMove(wantToGoX, wantToGoY-1):
+                                self.physicalMove(wantToGoX, wantToGoY-1)
+                        else: self.memory.pop(0)
+
+            # case 'addAdditionalCell':
+            #     x = self.memory[0][1][0]
+            #     y = self.memory[0][1][1]
+            #     if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight'] and data['CollisionMap'].tryOccupy(x, y):
+            #         # TODO tmp value
+            #         self.cooldown = 5
+            #         # TODO tmp value
+            #         self.buildingPoints -= 10
+            #         #                                                      additionType 
+            #         self.additionalCells.append(AdditionalCell(x, y, self, self.memory[0][1][2]))
+            #         self.memory.pop(0)
+            #     else:
+            #         x = self.x*2 - self.memory[0][1][0]
+            #         y = self.y*2 - self.memory[0][1][1]
+            #         # !!!only more (or less) not more or equal!!!
+            #         if x > 0 and x < data['simWidth'] and y > 0 and y < data['simHeight']:
+            #             self.move(None, x, y)
 
             case _:
                 raise Exception(f"memory's task: {self.memory[0]} not recognized")
@@ -294,17 +312,16 @@ class Organism(Entity):
             else:
                 nearestFood = self.lookingForFood()
                 if nearestFood != None:
-                    if nearestFood.x == self.x and nearestFood.y == self.y:
-                        self.eat(nearestFood)
+                    # if nearestFood.x == self.x and nearestFood.y == self.y:
+                    #     self.eat(nearestFood)
                     # TODO tmp value, remove after "and"
-                    elif self.buildingPoints>=10 and len(self.additionalCells)<4:
+                    if self.buildingPoints>=10 and len(self.additionalCells)<4:
                         self.addAdditionalCell()
                     # TODO tmp value
                     elif self.energy - self.divisionCost > 200:
                         self.division()
                     else:
                         self.memory.append(('goToFood',nearestFood))
-                        self.move(nearestFood)
         else:
             self.cooldown -= 1
 
