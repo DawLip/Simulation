@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from ..components.Txt import Txt
-from ..components.Input import Input
+from ...components.Txt import Txt
+from ...components.Input import Input
 
 from data import GUI, data, debug
 

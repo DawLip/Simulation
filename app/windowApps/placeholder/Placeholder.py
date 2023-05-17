@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from app.components.WindowApp import WindowApp
+from app.windowApps.window.WindowApp import WindowApp
 
 class Placeholder(WindowApp):
     def __init__(self, parent, **args):

@@ -2,12 +2,13 @@ import tkinter as tk
 from functools import partial
 
 
-from .Txt import Txt
+from ...components.Txt import Txt
+from ...components.Txt import Txt
 
 from data import GUI, data
 from data import  data as d
 
-class SubList(tk.Frame):
+class List(tk.Frame):
     def __init__(self, parent, column=0, row=0, sticky='wens', text='', data=[], **args):
         super().__init__(parent, **args)
 
@@ -19,7 +20,6 @@ class SubList(tk.Frame):
         
         for index, el in enumerate(data):
             element=Txt(self, row=index, column=0, text=f"{index+1}:\t{el.name}", bg=self.bg)
-            # element.focus_set()
             element.bind("<Button-1>", partial(self.onClick, el=el, **args))
             
             self.listElements.append(element)
@@ -36,10 +36,14 @@ class SubList(tk.Frame):
             for index, el in enumerate(data):
                 if index > len(self.listElements)-1:
                     element=Txt(self, row=index, column=0, text=f"{index+1}:\t{el.name}", bg=self.bg)
-                    # element.focus_set()
                     element.bind("<Button-1>", partial(self.onClick, el=el))
                     
                     self.listElements.append(element)
+        elif len(data) < len(self.listElements):
+            i=0
+            for index, el in enumerate(data):
+                self.listElements[i].bind("<Button-1>", partial(self.onClick, el=el))
+                i+=1
         
     def onClick(self, e, el, **args):
         data['selectedEntity']=el

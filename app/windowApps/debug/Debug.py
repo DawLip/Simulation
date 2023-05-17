@@ -1,10 +1,10 @@
-from app.components.WindowApp import WindowApp
+from app.windowApps.window.WindowApp import WindowApp
 
-from ..components.Txt import Txt
+from ...components.Txt import Txt
 
 from model.entities.Entity import Entity
 
-from data import debug
+from data import debug, data
 
 class Debug(WindowApp):
     def __init__(self, parent, **args):
@@ -20,6 +20,10 @@ class Debug(WindowApp):
     def refresh(self, **args):
         i=0
         for key, value in debug.items():
+            Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg'])
+            i+=1
+        
+        for key, value in data.items():
             Txt(self, row=i, column=0, text=f"{key}: {value}", bg=args['bg'])
             i+=1
 
