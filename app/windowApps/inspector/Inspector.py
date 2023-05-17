@@ -1,9 +1,9 @@
 import tkinter as tk
 
-from app.components.WindowApp import WindowApp
+from app.windowApps.window.WindowApp import WindowApp
 
-from ..components.Txt import Txt
-from ..components.EditField import EditField
+from ...components.Txt import Txt
+from ...components.EditField import EditField
 
 from model.entities.Entity import Entity
 

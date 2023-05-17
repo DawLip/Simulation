@@ -5,8 +5,8 @@ data = {
     'isModelReady': False,
     'isSimRestart': False,
 
-    'simHeight': 64*2,
-    'simWidth': 128*2,
+    'simHeight': 64,
+    'simWidth': 128,
 
     'frameRate': 0,
     'GUIframeRate': 30,
@@ -17,8 +17,8 @@ data = {
     'tick': 1,
     'seed': '7628712',
 
-    'initialCellNumber': 10,
-    'initialFoodNumber': 300,
+    'initialCellNumber': 1,
+    'initialFoodNumber': 1,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 

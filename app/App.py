@@ -1,16 +1,15 @@
 import tkinter as tk
 from tkinter import Menu
 
-from .components.Window import Window
-from .components.TopMenu import TopMenu
+from .windowApps.window.Window import Window
 
 from .windowApps.simulation.Simulation import Simulation
-from .windowApps.Placeholder import Placeholder
-from .windowApps.Entities import Entities
-from .windowApps.Inspector import Inspector
-from .windowApps.Debug import Debug
+from .windowApps.placeholder.Placeholder import Placeholder
+from .windowApps.entities.Entities import Entities
+from .windowApps.inspector.Inspector import Inspector
+from .windowApps.debug.Debug import Debug
 
-from .windowApps.BottomBar import BottomBar
+from .windowApps.bottomBar.BottomBar import BottomBar
 
 from data import data, GUI
 

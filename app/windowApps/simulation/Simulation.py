@@ -2,7 +2,7 @@ import tkinter as tk
 import math
 from PIL import ImageTk, Image, ImageDraw
 
-from app.components.WindowApp import WindowApp
+from app.windowApps.window.WindowApp import WindowApp
 
 from model.entities.importEntities import Entity
 from data import data, GUI, debug
