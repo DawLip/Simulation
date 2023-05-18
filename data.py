@@ -17,8 +17,8 @@ data = {
     'tick': 1,
     'seed': '7628712',
 
-    'initialCellNumber': 1,
-    'initialFoodNumber': 1,
+    'initialCellNumber': 10,
+    'initialFoodNumber': 300,
     # 'initialCellNumber':100,
     # 'initialFoodNumber': 30,
 

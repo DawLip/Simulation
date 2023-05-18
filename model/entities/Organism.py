@@ -144,7 +144,7 @@ class Organism(Entity):
             
     def physicalMove(self, wantToGoX: int, wantToGoY: int):
         self.x = wantToGoX
-        self.x = wantToGoY
+        self.y = wantToGoY
         for cell in self.additionalCells:
             cell.x = wantToGoX + cell.relativeX
             cell.y = wantToGoY + cell.relativeY
@@ -192,12 +192,12 @@ class Organism(Entity):
             wantToGoX = self.x
             wantToGoY = self.y
             if abs(distanceX) > abs(distanceY):
-                if x > 0: wantToGoX += 1
-                else:     wantToGoX -= 1
+                if distanceX > 0: wantToGoX += 1
+                else:             wantToGoX -= 1
             else:
-                if y > 0: wantToGoY += 1
-                else:     wantToGoY -= 1
-
+                if distanceY > 0: wantToGoY += 1
+                else:             wantToGoY -= 1
+                
             if self.logicalMove(wantToGoX, wantToGoY):
                 self.physicalMove(wantToGoX, wantToGoY)
             else:
