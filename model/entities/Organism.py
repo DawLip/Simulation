@@ -92,6 +92,7 @@ class Organism(Entity):
         while isLookingForSpace:
             if not (x, y) in additionalCellsPosition:
                 isLookingForSpace = False
+
             elif isNotCross:
                 if y==0:
                     if x > 0:
@@ -106,30 +107,6 @@ class Organism(Entity):
                         isNotCross = False
                         x = scope2
                         y = scope
-            # else:
-            #     if vertical:
-            #         if y > 0:
-            #             if x > 0:
-            #                 x = scope2 * -1
-            #             else:
-            #                 x = scope2
-            #                 y = scope * -1
-            #         else:
-            #             if x > 0:
-            #                 x = scope2 * -1
-            #             else:
-            #                 vertical = False
-            #                 x = scope
-            #                 y = scope2
-            #     else:
-            #         if x > 0:
-            #             if y > 0:
-            #                 y = scope2 * -1
-            #             else:
-            #                 x = scope * -1
-            #                 y = scope2
-            #         else:
-            #             pass
 
         if data['CollisionMap'].tryOccupy(x,y):
             # TODO tmp value
@@ -315,10 +292,10 @@ class Organism(Entity):
                     # if nearestFood.x == self.x and nearestFood.y == self.y:
                     #     self.eat(nearestFood)
                     # TODO tmp value, remove after "and"
-                    if self.buildingPoints>=10 and len(self.additionalCells)<4:
-                        self.addAdditionalCell()
+                    # if self.buildingPoints>=10 and len(self.additionalCells)<4:
+                    #     self.addAdditionalCell()
                     # TODO tmp value
-                    elif self.energy - self.divisionCost > 200:
+                    if self.energy - self.divisionCost > 200:
                         self.division()
                     else:
                         self.memory.append(('goToFood',nearestFood))
@@ -399,3 +376,6 @@ class Organism(Entity):
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.x}, {self.y}, {self.energy}, {self.buildingPoints}, {self.cooldown}, {self.parent}, {self.img})"
+    
+    def __str__(self):
+        return f"Organism({self.x}, {self.y}, {self.energy}, {self.buildingPoints}, {self.cooldown}, {self.parent},  {self.additionalCells}, {self.memory})"
