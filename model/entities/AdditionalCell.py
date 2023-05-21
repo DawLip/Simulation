@@ -7,7 +7,7 @@ from data import data
 class AdditionalCell(Entity):
     all=[]
     # TODO tmp
-    additionTypes={None, 'foto', 'sth'}
+    additionTypes={None, 'stem', 'foto', 'sth'}
 
     def __init__(
         self, 

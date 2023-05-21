@@ -1,4 +1,5 @@
 from PIL import Image
+from random import randrange
 
 from data import data, debug
 
@@ -74,47 +75,43 @@ class Organism(Entity):
         return nearestFood
     
     def addAdditionalCell(self):
-        additionalCellsPosition=[(additionalCell.relativeX, additionalCell.relativeY) for additionalCell in self.additionalCells]
+        stemCells = [self].extend([cell for cell in self.additionalCells if cell.additionType=='stem'])
+        possibleSpaces = set()
+        for stem in stemCells:
+            possibleSpaces.add((stem.x-1, stem.y))
+            possibleSpaces.add((stem.x, stem.y-1))
+            possibleSpaces.add((stem.x+1, stem.y))
+            possibleSpaces.add((stem.x, stem.y+1))
         
-        scope = 1
-        scope2 = 1
-        i = 2
-        numOfCells = len(self.additionalCells) + 1
-        while (scope+i)**2 < numOfCells:
-            i += 1
-            scope += 1
+        freeSpaces = [
+            (x, y, abs(self.x-x)+abs(self.y-y)-1) for x, y in possibleSpaces 
+            if x >= 0 and y >= 0 and 
+            x <= data['simWidth'] and y <= data['simHeight'] and 
+            data['CollisionMap'].isOccupied(x, y)
+        ]
+        maxDistance = max([space[2] for space in freeSpaces])
+        probabilitySpaces = []
+        for space in freeSpaces:
+            probabilitySpaces.extend([(space[0],space[1]) for _ in range(maxDistance-space[2])])
+        
+        selectedSpace = probabilitySpaces[randrange(len(probabilitySpaces))]
+        
 
-        x = scope
-        y = 0
-        isLookingForSpace = True
-        isNotCross = True
-        vertical = True
-        while isLookingForSpace:
-            if not (x, y) in additionalCellsPosition:
-                isLookingForSpace = False
+        # scope = 1
+        # scope2 = 1
+        # i = 2
+        # numOfCells = len(self.additionalCells) + 1
+        # while (scope+i)**2 < numOfCells:
+        #     i += 1
+        #     scope += 1
 
-            elif isNotCross:
-                if y==0:
-                    if x > 0:
-                        x = scope * -1
-                    else:
-                        x = 0
-                        y = scope
-                else:
-                    if y > 0:
-                        y = scope * -1
-                    else:
-                        isNotCross = False
-                        x = scope2
-                        y = scope
-
-        if data['CollisionMap'].tryOccupy(x,y):
-            # TODO tmp value
-            self.cooldown = 5
-            # TODO tmp value
-            self.buildingPoints -= 10
-            # TODO tmp additionType
-            self.additionalCells.append(AdditionalCell(x + self.x, y + self.y, self, None))
+        # if data['CollisionMap'].tryOccupy(x,y):
+        #     # TODO tmp value
+        #     self.cooldown = 5
+        #     # TODO tmp value
+        #     self.buildingPoints -= 10
+        #     # TODO tmp additionType
+        #     self.additionalCells.append(AdditionalCell(x + self.x, y + self.y, self, None))
         # else:
         #     # TODO tmp additionType
         #     self.memory.insert(0, ('addAdditionalCell', (x + self.x, y + self.y, None)))

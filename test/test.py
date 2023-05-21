@@ -1,8 +1,24 @@
-from tmp.test2 import test2
-from tmp.test3 import test3
+from random import randrange
 
-test2()
-print(test3())
+data = {
+    'simWidth':100,
+    'simHeight':100,
+}
+
+possibleSpaces = [(-1,1),(0,1000),(1,0),(1,2),(4,5),(2,4),(4,5),(8,4),(2,1),(3,6),(0,1),(0,0),(1,0),(1,2),(4,5),(2,4),(4,5),(8,4),(2,1),(3,6),(0,1),(0,0),(1,0),(1,2),(4,5),(2,4),(4,5),(8,4),(2,1),(3,6)]
+freeSpaces = [
+            (x, y) for x, y in possibleSpaces 
+            if x >= 0 and y >= 0 and 
+            x <= data['simWidth'] and y <= data['simHeight'] #and 
+            # data['CollisionMap'].isOccupied(x, y)
+        ]
+selectedSpace = freeSpaces[randrange(len(freeSpaces))]
+print(selectedSpace)
+# from tmp.test2 import test2
+# from tmp.test3 import test3
+
+# test2()
+# print(test3())
 
 # import time 
 # from numba import jit
