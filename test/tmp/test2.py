@@ -1,4 +1,1 @@
-import random
-
-def test2():
-    random.seed(123)
+return 123

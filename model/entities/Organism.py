@@ -89,32 +89,20 @@ class Organism(Entity):
             x <= data['simWidth'] and y <= data['simHeight'] and 
             data['CollisionMap'].isOccupied(x, y)
         ]
-        maxDistance = max([space[2] for space in freeSpaces])
+
+        maxDistance = max([space[2] for space in freeSpaces])+1
         probabilitySpaces = []
+        sumOfProbability = 0
         for space in freeSpaces:
-            probabilitySpaces.extend([(space[0],space[1]) for _ in range(maxDistance-space[2])])
-        
-        selectedSpace = probabilitySpaces[randrange(len(probabilitySpaces))]
-        
+            probability=maxDistance//(space[2]+1)
+            sumOfProbability+=probability
+            probabilitySpaces.append(sumOfProbability)
 
-        # scope = 1
-        # scope2 = 1
-        # i = 2
-        # numOfCells = len(self.additionalCells) + 1
-        # while (scope+i)**2 < numOfCells:
-        #     i += 1
-        #     scope += 1
-
-        # if data['CollisionMap'].tryOccupy(x,y):
-        #     # TODO tmp value
-        #     self.cooldown = 5
-        #     # TODO tmp value
-        #     self.buildingPoints -= 10
-        #     # TODO tmp additionType
-        #     self.additionalCells.append(AdditionalCell(x + self.x, y + self.y, self, None))
-        # else:
-        #     # TODO tmp additionType
-        #     self.memory.insert(0, ('addAdditionalCell', (x + self.x, y + self.y, None)))
+        selectedSpace = freeSpaces[0]
+        for index, p in enumerate(probabilitySpaces):
+            if p > randrange(sumOfProbability+1):
+                selectedSpace=freeSpaces[index]
+                break
             
     def physicalMove(self, wantToGoX: int, wantToGoY: int):
         self.x = wantToGoX
