@@ -86,6 +86,7 @@ class Simulation(WindowApp):
         data['frameRate']=fr
 
         return super().refresh(frameRate=fr)
+        # return super().refresh(frameRate=1)
     
     def onScroll(self, e):
         self.scale = self.scale - self.scale*.1*e.delta/120*-1

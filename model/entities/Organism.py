@@ -315,10 +315,10 @@ class Organism(Entity):
                     # if nearestFood.x == self.x and nearestFood.y == self.y:
                     #     self.eat(nearestFood)
                     # TODO tmp value, remove after "and"
-                    if self.buildingPoints>=10 and len(self.additionalCells)<4:
-                        self.addAdditionalCell()
+                    # if self.buildingPoints>=10 and len(self.additionalCells)<4:
+                    #     self.addAdditionalCell()
                     # TODO tmp value
-                    elif self.energy - self.divisionCost > 200:
+                    if self.energy - self.divisionCost > 200:
                         self.division()
                     else:
                         self.memory.append(('goToFood',nearestFood))

@@ -29,7 +29,7 @@ class List(tk.Frame):
         
     def renderData(self, **args):    
         for index, el in enumerate(self.data):
-            if      el['type'] == 'text':               self.addElement(el, index, **args)
+            if      el['type'] == 'Text':               self.addElement(el, index, **args)
             elif    el['type'] == 'ExpandableList':     self.addList(el=el, index=index)
                     
     def addElement(self, el, index, **args):
@@ -60,18 +60,50 @@ class List(tk.Frame):
             'list': None
         })
                 
-    def conf(self, data):
-        for index, el in enumerate(self.listElements):
-            if isinstance(el, dict):
-                if index >= len(data):
-                    # Destroy   
-                    el['el'].destroy()
-                    self.listElements.pop(index)
-                else:
-                    # Update present
-                    txt = data[index]['text']
-                    if el['label']['text'] != txt:
-                        el['label'].config(text=txt)
+    def conf(self, data, listElementsBase=None):
+        if listElementsBase==None:
+            listElementsBase=self.listElements
+            
+        # Update all    
+        for index, el in enumerate(data):
+            elType=el['type']
+            txtNew = el['text']
+            
+            if elType=='ExpandableList':
+                element=listElementsBase[index]
+                label = element['label']
+                txtOld = label['text']
+                listOfElements = element['list']
+                
+                data=el['data']
+                
+                # Update present
+                if txtOld != txtNew:
+                    label.config(text=txtNew)
+                
+                if listOfElements != None: 
+                    listOfElements.conf(data=data)
+                          
+            elif el['type']=='Text':
+                if index >= len(listElementsBase):
+                    self.addElement(el, index, **self.args)
+                    
+                element=listElementsBase[index]
+                txtOld = element['text']
+                
+                if txtOld != txtNew:
+                    element.config(text=txtNew)
+        # for index, el in enumerate(self.listElements):
+        #     if isinstance(el, dict):
+        #         if index >= len(data):
+        #             # Destroy   
+        #             el['el'].destroy()
+        #             self.listElements.pop(index)
+        #         else:
+        #             # Update present
+        #             txt = data[index]['text']
+        #             if el['label']['text'] != txt:
+        #                 el['label'].config(text=txt)
                 
             #     if el['list'] != None: el['list'].conf(data=data)
             # elif isinstance(el, str):
@@ -82,11 +114,11 @@ class List(tk.Frame):
                 
         
         # Create new
-        for index, el in enumerate(data):
-            if index >= len(self.listElements):
-                self.addList(el=el, index=index)
+        # for index, el in enumerate(data):
+        #     if index >= len(self.listElements):
+        #         self.addList(el=el, index=index)
                 
-        self.data=data
+        # self.data=data
                 
         # print(self.listElements)
         # oldData = self.data

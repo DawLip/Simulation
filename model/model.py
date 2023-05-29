@@ -15,6 +15,7 @@ def model():
     if not data['isModelReady']:
         data['isModelReady'] = True
         
+    print("Start simulation")
     while not data['exit']:
         time.sleep(.01)
         while data['isSimRunning'] or data['isMakeStep'] or data['isSimRestart']:
@@ -30,6 +31,8 @@ def model():
                 
                 initializeData()
                 continue                
+            
+            # print(data['tick'])
             
             if not data['tick']%10:
                 TmpFood(randrange(1, data["simWidth"] - 1), randrange(1, data["simHeight"] - 1))

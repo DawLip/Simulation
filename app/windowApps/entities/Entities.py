@@ -48,12 +48,12 @@ class Entities(WindowApp):
                 'text': f'{key}: {len(eval(f"{key}.all"))}',
                 'data': [
                     {
-                        'type': 'text',
+                        'type': 'Text',
                         'text': f'{index+1}\t{entity.name}',
                         'onClick': self.onClick
                     } for index, entity in enumerate(eval(f'{key}.all')) 
                 ],
-                'onClick': self.onClick
+                'onClick': self.onClick,
             })
             
         # List data        
